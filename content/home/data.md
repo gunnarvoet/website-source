@@ -69,3 +69,10 @@ Mooring data from the [Boundary Layer Turbulence (BLT)]({{< ref "/project/blt" >
 [{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data repository](https://doi.org/10.5061/dryad.v15dv424f)
 &nbsp; | &nbsp;
 [{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}processing code](https://github.com/gunnarvoet/blt-proc)
+
+### NISKINe
+Mooring data from the [Near-Inertial Shear and Kinetic Energy in the North Atlantic experiment (NISKINe)]({{< ref "/project/niskine" >}}) project. 
+
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data repository](https://doi.org/10.5061/dryad.g1jwstr3w)
+&nbsp; | &nbsp;
+[{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}processing code](https://github.com/gunnarvoet/niskine-proc)
