@@ -15,8 +15,8 @@ make serve     # hugo server -D (includes drafts), opens http://localhost:1313/
 make biblio    # regenerate static/files/bibliography.md from static/files/gv.bib via pandoc + CSL
 ```
 
-`make biblio` must run from the repo root; `static/files/pandoc-bib-template.md` references `static/files/style.csl`
-by a root-relative path. It needs pandoc with `--citeproc`.
+`make biblio` must run from the repo root; the Makefile addresses `static/files/` by relative path. It needs
+pandoc with `--citeproc`.
 
 `static/files/generate_thumbnail.sh` regenerates `cv_thumbnail.png` from `cv.pdf` with ghostscript; run it from
 inside `static/files/`.
@@ -59,7 +59,10 @@ copy of any theme file at the matching root path wins, color and font themes com
 
 Site colors come from `data/themes/minimal_gunnar.toml`, selected by `theme = "minimal_gunnar"` in `params.toml`.
 Root-level `layouts/`, `assets/`, `data/`, and `static/` override the theme submodule; keep edits there rather than
-in `themes/`. Current overrides are `layouts/partials/custom_head.html` and `layouts/shortcodes/include.html`.
+in `themes/`. Current overrides are `layouts/partials/custom_head.html`, `layouts/shortcodes/include.html`, and
+`assets/scss/custom.scss`. The last is the theme's own hook for extra styling: `main.scss` ends with
+`@import "custom"`, so the root copy is compiled into `academic.css` with the theme's SCSS variables
+(`$sta-primary` and friends) in scope. Dark-mode rules take a `.dark` prefix.
 
 ## Homepage structure
 
@@ -85,7 +88,7 @@ The chain is:
     $HOME/Projects/gvzbib/gv_zotero.bib   (full Zotero library, auto-exported by Better BibTeX)
       -> scripts/filter_bib.py            (select own publications, strip fields, apply fixups)
       -> static/files/gv.bib
-      -> pandoc --citeproc + style.csl
+      -> scripts/build_biblio.py          (runs pandoc --citeproc, then lays out the HTML)
       -> static/files/bibliography.md
 
 To add or change a paper: fix it in Zotero, let the export refresh `gv_zotero.bib`, run `make biblio`, and commit
@@ -102,8 +105,20 @@ run. `scripts/bib_fixups.json` substitutes journal abbreviations where Zotero ha
 were fixed at the source with `scripts/fix_zotero_names.js`. Keys are the export's exact form, so add to the
 `journals` map only when a full title shows up in the rendered list.
 
-`gv_prior.bib` holds older entries and is not part of the generated list. Citation formatting is
-`static/files/style.csl` (Elsevier Harvard, locally adjusted).
+`scripts/build_biblio.py` owns the rendered layout. pandoc formats the fields but does not lay them out:
+`static/files/bibliography-fields.csl` emits each entry as six fields separated by `‖` (year, authors separated by
+`¦`, title, venue, volume/pages, DOI URL) and the script turns them into the HTML the widget includes: an `<h3>`
+per year, the title as a link to the DOI, and a muted meta line with the authors and journal. Author lists longer
+than ten names collapse to the first three, an ellipsis and Voet (`Cimoli, L., Mashayek, A., Naveira Garabato, A.C.
+… **Voet, G.**, et al.`), so the large-collaboration papers stay recognizable as his; `Voet, G.` is bolded in every
+entry. Styling lives in `assets/scss/custom.scss` under the `.pub-*` classes.
+
+If the field count ever changes, the script exits rather than writing a mangled list. Both delimiters are chosen so
+they cannot appear in bibliographic text.
+
+`gv_prior.bib` holds older entries and is not part of the generated list. `static/files/style.csl` (Elsevier
+Harvard, locally adjusted) is no longer in the chain; `bibliography-fields.csl` was derived from it and keeps its
+macros, so journal-abbreviation and name handling are unchanged.
 
 Pages under `content/publication/journal-article/<slug>/index.md` are separate standalone publication pages with
 Academic front matter (`publication_types`, `doi`, `url_pdf`, abstract, `tags`). They are independent of the

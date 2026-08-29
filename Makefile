@@ -13,14 +13,10 @@ ZOTERO_BIB ?= $(HOME)/Projects/gvzbib/gv_zotero.bib
 gv.bib bib:
 	uv run scripts/filter_bib.py $(ZOTERO_BIB) static/files/gv.bib
 
-# pandoc >= 3 wraps brace-protected surnames ({van Haren}, {Le Boyer}) in
-# <span class="nocase">. The class is unstyled, so strip it to keep the
-# generated markdown clean and future diffs limited to real content changes.
+# The layout of the rendered list (year headings, truncated author lists,
+# titles as DOI links) is assembled by build_biblio.py; pandoc + citeproc only
+# supply the formatted fields, through static/files/bibliography-fields.csl.
 biblio: bib
-	pandoc -t markdown_strict \
-		--citeproc static/files/pandoc-bib-template.md \
-		--bibliography static/files/gv.bib \
-		| perl -0777 -pe 's|<span class="nocase">||g; s|</span>||g' \
-		> static/files/bibliography.md
+	uv run scripts/build_biblio.py static/files/gv.bib static/files/bibliography.md
 
 .PHONY: serve bib biblio

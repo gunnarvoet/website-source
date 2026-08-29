@@ -1,0 +1,75 @@
+// Override this file to add your own SCSS styling.
+
+/*************************************************
+ *  Publication list
+ *
+ *  Markup comes from scripts/build_biblio.py by way of
+ *  static/files/bibliography.md, included by content/home/publicationlist.md.
+ *  Colors follow the theme's own muted-text values in
+ *  themes/hugo-academic-theme/assets/scss/academic/_content.scss.
+ **************************************************/
+
+.pub-list {
+  max-width: 46rem;
+}
+
+.pub-year {
+  margin: 2rem 0 0.9rem;
+  padding-bottom: 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pub-list .pub-year:first-child {
+  margin-top: 0;
+}
+
+.dark .pub-year {
+  color: rgba(255, 255, 255, 0.45);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.pub {
+  margin-bottom: 1.1rem;
+}
+
+.pub-title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #151515;
+  transition: color 0.3s ease;
+}
+
+a.pub-title:hover {
+  color: $sta-primary;
+  text-decoration: none;
+}
+
+.dark .pub-title {
+  color: rgb(248, 248, 242);
+}
+
+.pub-meta {
+  margin-top: 0.15rem;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.dark .pub-meta {
+  color: rgba(255, 255, 255, 0.54);
+}
+
+// The journal is italic so it stays findable inside a wrapped author line.
+.pub-venue {
+  font-style: italic;
+}
+
+.pub-venue::before {
+  content: " · ";
+  font-style: normal;
+}
