@@ -29,7 +29,24 @@ inside `static/files/`.
 deploy step to run locally.
 
 `public/` is gitignored and holds stale local build output. It is also still listed in `.gitmodules` from an older
-deploy scheme and is not initialized. Do not commit it or try to init that submodule.
+deploy scheme and is not initialized. Do not commit it or try to init that submodule. `resources/` (Hugo's asset
+cache) is gitignored too.
+
+The custom domain `gunnarvoet.net` was registered at Cloudflare on 2024-05-29 and `gunnarvoet.github.io` redirects
+to it. `CNAME` at the repo root holds the bare domain, and the workflow's copy step is what keeps the custom domain
+attached after each deploy, since `--cleanDestinationDir` would otherwise wipe it.
+
+## Theme submodule
+
+`themes/hugo-academic-theme` is a fork (`gunnarvoet/hugo-academic-theme`), branch `gunnarvoet`, based on Academic
+v4.8.0 with local tweaks. Pull fork changes with:
+
+    git submodule update --remote --merge
+
+Moving to a newer upstream Academic release breaks a lot and has not been attempted since 4.8.0. Customize through
+the root-level `layouts/`, `assets/`, `data/`, and `static/` overrides instead: the theme's own lookup order means a
+copy of any theme file at the matching root path wins, color and font themes come from `data/themes/` and
+`data/fonts/`, and extra CSS/JS is registered as `plugins_css` / `plugins_js` in `params.toml`.
 
 ## Configuration layout
 
@@ -107,3 +124,14 @@ publications), and cross-page links use `{{< ref "/project/samoan-passage" >}}`.
 so notebooks can sit inside content bundles without being rendered.
 
 The CV is a committed binary at `static/files/cv.pdf`, linked from the nav bar; it is produced outside this repo.
+
+## Notes outside this repo
+
+Long-form history and the archived theme documentation live in the Obsidian vault:
+
+- `$HOME/Projects/zettelkasten/references/other/Personal Website.md` — domain and hosting, the theme update
+  procedure, a per-year change log, and the links collected while building the bibliography pipeline
+- `$HOME/Projects/zettelkasten/references/other/hugo academic theme customization.md` — archived Academic
+  customization docs (colors, fonts, site icons, permalinks, custom CSS/JS, template overrides, date formats)
+
+After a change worth remembering a year from now, add it to the change log in `Personal Website.md`.

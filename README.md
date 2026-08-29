@@ -1,8 +1,9 @@
 # Source for [gunnarvoet.net](https://gunnarvoet.net)
 
-## Biblography
-The publication list is built using a .bib file in `static/files/`.
-To update the list, update `static/files/gv.bib` and run `make biblio`.
+## Bibliography
+The publication list is generated. `make biblio` filters the Zotero export into `static/files/gv.bib` and renders it
+to `static/files/bibliography.md` with pandoc. Both files are generated, so add or fix a paper in Zotero and re-run
+`make biblio`.
 
 ## Theme
 Based on the [Hugo Academic Theme v4.8.0](https://github.com/gunnarvoet/hugo-academic-theme).
