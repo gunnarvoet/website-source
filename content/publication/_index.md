@@ -10,7 +10,6 @@ view: 4
 
 # Optional header image (relative to `static/img/` folder).
 header:
-  caption: ""
   caption: "[xkcd](https://xkcd.com/2456)"
   image: "types_of_scientific_paper.png"
 ---

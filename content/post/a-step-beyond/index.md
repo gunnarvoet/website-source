@@ -17,10 +17,9 @@ reading_time: false
 # Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
 image:
   placement: 3
-  caption: ""
+  caption: "Creative expression of a mooring pushed around by ocean currents."
   focal_point: ""
   preview_only: false
-  caption: "Creative expression of a mooring pushed around by ocean currents."
 
 # Projects (optional).
 #   Associate this post with one or more of your projects.
