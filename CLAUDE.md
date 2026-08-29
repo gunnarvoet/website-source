@@ -80,10 +80,10 @@ paths under `$HOME`, and that file is served publicly at `/files/gv.bib`.
 `scripts/filter_bib.py` keeps `@article`/`@incollection`/`@inproceedings`/`@book`/`@phdthesis` entries with Voet as
 an author, and drops entries with no four-digit year (which catches `in preparation`), articles with no journal, and
 `@misc`/`@unpublished` (datasets, software releases, unpublished manuscripts). It prints what it excluded on every
-run. `scripts/bib_fixups.json` repairs compound surnames that Zotero stores split across its first/last name fields
-(`Boyer, Arnaud Le` -> `{Le Boyer}, Arnaud`) and substitutes journal abbreviations. Fixup keys are full
-"Last, First" strings so unrelated people sharing a surname are unaffected; fixing the Zotero records would make the
-corresponding entries redundant.
+run. `scripts/bib_fixups.json` substitutes journal abbreviations where Zotero has no `journalAbbreviation` value
+(only 28 of 59 own-publication items carry one). Its `names` map is empty: the compound surnames it used to repair
+were fixed at the source with `scripts/fix_zotero_names.js`. Keys are the export's exact form, so add to the
+`journals` map only when a full title shows up in the rendered list.
 
 `gv_prior.bib` holds older entries and is not part of the generated list. Citation formatting is
 `static/files/style.csl` (Elsevier Harvard, locally adjusted).
