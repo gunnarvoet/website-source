@@ -62,9 +62,31 @@ The publication list is not the Academic publication widget. `content/home/publi
 whose body is `{{% include file="static/files/bibliography.md" %}}`, using the local `include` shortcode
 (`layouts/shortcodes/include.html`) which reads the file raw and strips a leading `---` front matter block if present.
 
-To add or change a paper: edit `static/files/gv.bib`, run `make biblio`, and commit both `gv.bib` and the regenerated
-`bibliography.md`. Never hand-edit `bibliography.md`. `gv_prior.bib` holds older entries and is not part of the
-generated list. Citation formatting is `static/files/style.csl` (Elsevier Harvard, locally adjusted).
+Both `static/files/gv.bib` and `static/files/bibliography.md` are generated. Never hand-edit either one.
+The chain is:
+
+    $HOME/Projects/gvzbib/gv_zotero.bib   (full Zotero library, auto-exported by Better BibTeX)
+      -> scripts/filter_bib.py            (select own publications, strip fields, apply fixups)
+      -> static/files/gv.bib
+      -> pandoc --citeproc + style.csl
+      -> static/files/bibliography.md
+
+To add or change a paper: fix it in Zotero, let the export refresh `gv_zotero.bib`, run `make biblio`, and commit
+both generated files. Override the source with `make biblio ZOTERO_BIB=/path/to/export.bib`.
+
+Do not point a Zotero auto-export at `static/files/gv.bib`. The raw export carries `file` fields holding absolute
+paths under `$HOME`, and that file is served publicly at `/files/gv.bib`.
+
+`scripts/filter_bib.py` keeps `@article`/`@incollection`/`@inproceedings`/`@book`/`@phdthesis` entries with Voet as
+an author, and drops entries with no four-digit year (which catches `in preparation`), articles with no journal, and
+`@misc`/`@unpublished` (datasets, software releases, unpublished manuscripts). It prints what it excluded on every
+run. `scripts/bib_fixups.json` repairs compound surnames that Zotero stores split across its first/last name fields
+(`Boyer, Arnaud Le` -> `{Le Boyer}, Arnaud`) and substitutes journal abbreviations. Fixup keys are full
+"Last, First" strings so unrelated people sharing a surname are unaffected; fixing the Zotero records would make the
+corresponding entries redundant.
+
+`gv_prior.bib` holds older entries and is not part of the generated list. Citation formatting is
+`static/files/style.csl` (Elsevier Harvard, locally adjusted).
 
 Pages under `content/publication/journal-article/<slug>/index.md` are separate standalone publication pages with
 Academic front matter (`publication_types`, `doi`, `url_pdf`, abstract, `tags`). They are independent of the

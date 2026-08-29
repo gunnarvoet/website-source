@@ -280,7 +280,7 @@ observations. *Tellus A* 62, 516–529.
 Dickson, R.R., Dye, S., Jónsson, S., Köhl, A., Macrander, A., Marnela,
 M., Meincke, J., Olsen, S., Rudels, B., Valdimarsson, H., Voet, G. The
 overflow flux west of Iceland: Variability, origins and forcing, in:
-Dickson, R.R., Meincke, J., Rhines, P. (Eds.), ArcticSubarctic Ocean
+Dickson, R.R., Meincke, J., Rhines, P. (Eds.), Arctic–Subarctic Ocean
 Fluxes. Springer, Dordrecht, pp. 443–474.
 [https://doi.org/10.1007/978-1-4020-6774-7\\20](https://doi.org/10.1007/978-1-4020-6774-7\_20).
 **2008**.

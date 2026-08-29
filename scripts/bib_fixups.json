@@ -1,0 +1,17 @@
+{
+  "journals": {
+    "Deep Sea Research Part I: Oceanographic Research Papers": "Deep Sea Res. I",
+    "Nat Commun": "Nat. Commun.",
+    "The Journal of the Acoustical Society of America": "J. Acoust. Soc. Am."
+  },
+  "names": {
+    "Boyer, Arnaud Le": "{Le Boyer}, Arnaud",
+    "Castro, Bieito Fernandez": "{Fern{\\'a}ndez-Castro}, Bieito",
+    "Castro, Bieito Fern{\\'a}ndez": "{Fern{\\'a}ndez-Castro}, Bieito",
+    "Fern{\\'a}ndez Castro, Bieito": "{Fern{\\'a}ndez-Castro}, Bieito",
+    "Garabato, Alberto C. Naveira": "{Naveira Garabato}, Alberto C.",
+    "Haren, Hans van": "{van Haren}, Hans",
+    "Van Haren, Hans": "{van Haren}, Hans",
+    "van Haren, Hans": "{van Haren}, Hans"
+  }
+}
