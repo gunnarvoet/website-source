@@ -52,12 +52,14 @@ subtitle = ""
 ### Samoan Passage
 Mooring and shipboard data from the [Samoan Passage project]({{< ref "/project/samoan-passage" >}}).
 
-[{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}data repository](https://github.com/gunnarvoet/sp-data-archive)
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}process cruise \& mooring data](https://github.com/gunnarvoet/sp-data-archive)
+&nbsp; | &nbsp;
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}monitoring mooring data](https://datadryad.org/dataset/doi:10.5061/dryad.gb5mkkx5c)
 
 ### PISTON
 Mooring data from [PISTON]({{< ref "/project/piston" >}}). 
 
-[{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}data repository](https://github.com/gunnarvoet/piston-mooring-data)
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data](https://github.com/gunnarvoet/piston-mooring-data)
 &nbsp; | &nbsp;
 [{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}processing code](https://github.com/gunnarvoet/piston-proc)
 
@@ -66,13 +68,13 @@ PISTON data have also been archived to the official [{{< icon name="database" pa
 ### BLT
 Mooring data from the [Boundary Layer Turbulence (BLT)]({{< ref "/project/blt" >}}) project. 
 
-[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data repository](https://doi.org/10.5061/dryad.v15dv424f)
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data](https://doi.org/10.5061/dryad.v15dv424f)
 &nbsp; | &nbsp;
 [{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}processing code](https://github.com/gunnarvoet/blt-proc)
 
 ### NISKINe
 Mooring data from the [Near-Inertial Shear and Kinetic Energy in the North Atlantic experiment (NISKINe)]({{< ref "/project/niskine" >}}) project. 
 
-[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data repository](https://doi.org/10.5061/dryad.g1jwstr3w)
+[{{< icon name="database" pack="fas" padding_left="0" padding_right="1">}}data](https://doi.org/10.5061/dryad.g1jwstr3w)
 &nbsp; | &nbsp;
 [{{< icon name="github" pack="fab" padding_left="0" padding_right="1">}}processing code](https://github.com/gunnarvoet/niskine-proc)
