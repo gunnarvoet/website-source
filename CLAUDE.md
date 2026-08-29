@@ -23,7 +23,7 @@ inside `static/files/`.
 
 ## Build and deploy
 
-`.github/workflows/` builds on every push: Hugo **0.140.2 extended** (pinned; local Hugo may be newer),
+`.github/workflows/` builds on every push: Hugo **0.164.0 extended** (pinned; local Hugo may be newer),
 `hugo --gc --minify --cleanDestinationDir`, then copies `CNAME` into `public/` and pushes `public/` to the
 `main` branch of the separate repo `gunnarvoet/gunnarvoet.github.io` using `secrets.TOKEN`. There is no
 deploy step to run locally.
