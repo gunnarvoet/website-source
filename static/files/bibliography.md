@@ -4,6 +4,12 @@ Ground-Truthed Fiber-Optic Sensing Reveals Internal Tide Bores Over
 Madeira’s Steep Slope. *Geophys. Res. Lett.* 53, e2026GL124117.
 <https://doi.org/10.1029/2026GL124117>. **2026**.
 
+Anutaliya, A., Whalen, C.B., Voet, G., Deppenmeier, A.-L., Waterhouse,
+A.F., Luko, C.D., Le Boyer, A. Observation of Yanai Wave Excitation by
+Tropical Instability Waves in the Equatorial Pacific. *Geophys. Res.
+Lett.* 53, e2026GL124052. <https://doi.org/10.1029/2026GL124052>.
+**2026**.
+
 Cimoli, L., Mashayek, A., Naveira Garabato, A.C.,
 Caulfield, C.P., Alford, M.H., Baker, L., Cael, B.B., Fernández-Castro,
 B., de Lavergne, C., Ellison, E., Gebbie, G., Gula, J., Heimbach, P.,
