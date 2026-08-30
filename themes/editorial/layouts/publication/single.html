@@ -1,0 +1,106 @@
+{{/* ------------------------------------------------------------------
+     A paper.
+
+     The homepage carries the complete bibliography, generated from
+     Zotero; these are the papers that also have a page of their own.
+     Everything here is front matter, so nothing is transcribed: the DOI
+     is the paper's coordinate and sits in the station strip where the
+     homepage puts the ones for the lab.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $me := (partial "func/author.html" .).Params.name -}}
+{{- $rel := partial "func/related.html" . -}}
+{{- $bib := .Resources.GetMatch "cite.bib" -}}
+
+<article>
+
+  <header class="page-head band">
+    <div class="band-head">
+      <span class="label eyebrow">
+        Paper
+        {{- range $tag := .Params.tags }}
+          {{- with site.GetPage (printf "/tags/%s" (urlize $tag)) }} &middot; <a href="{{ .RelPermalink }}">{{ replace $tag "-" " " }}</a>{{ end }}
+        {{- end }}
+      </span>
+      <span class="mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time>
+      </span>
+    </div>
+    <h1 class="display page-title paper-title">{{ .Title }}</h1>
+
+    {{/* Every co-author is a term of the author taxonomy, so each name
+         can link to the rest of their work on this site. */}}
+    {{- with .Params.authors }}
+    <p class="byline">
+      {{- range $n, $name := . }}{{ if $n }}, {{ end }}
+        {{- $term := site.GetPage (printf "/authors/%s" (urlize $name)) -}}
+        {{- if eq $name $me }}<strong>{{ end -}}
+        {{- with $term }}<a href="{{ .RelPermalink }}">{{ $name }}</a>{{ else }}{{ $name }}{{ end -}}
+        {{- if eq $name $me }}</strong>{{ end -}}
+      {{- end }}
+    </p>
+    {{- end }}
+    {{- with .Params.publication }}
+    <p class="venue">{{ . | markdownify }}</p>
+    {{- end }}
+  </header>
+
+  {{/* The station strip: the paper's own coordinate on the left, the
+       ways of getting hold of it on the right. */}}
+  <section class="station">
+    <div class="mono">
+      {{- with .Params.doi }}<a href="https://doi.org/{{ . }}">doi:{{ . }}</a>{{ end }}
+    </div>
+    <div class="station-links label">
+      {{- with .Params.url_pdf }}<a href="{{ . }}">PDF</a>{{ end }}
+      {{- with $bib }}<a href="{{ .RelPermalink }}">BibTeX</a>{{ end }}
+      {{- with $.Params.url_code }}<a href="{{ . }}">Code</a>{{ end }}
+      {{- with $.Params.url_dataset }}<a href="{{ . }}">Data</a>{{ end }}
+      {{- with $.Params.url_slides }}<a href="{{ . }}">Slides</a>{{ end }}
+      {{- with $.Params.url_video }}<a href="{{ . }}">Video</a>{{ end }}
+    </div>
+  </section>
+
+  {{ partial "plate.html" . }}
+
+  {{- with .Params.abstract }}
+  <section class="band">
+    <div class="band-head"><h2>Abstract</h2></div>
+    <div class="longform">
+      {{/* markdownify drops the wrapping <p> for a single-paragraph
+           string, which would leave a bare text node with nothing for the
+           reading measure to apply to. */}}
+      <div>{{ partial "func/math.html" (dict "html" (. | markdownify) "enabled" $.Params.math) | safeHTML }}</div>
+    </div>
+  </section>
+  {{- end }}
+
+  {{- with partial "func/content.html" . }}
+  <section class="band">
+    <div class="longform">{{ . | safeHTML }}</div>
+  </section>
+  {{- end }}
+
+  {{/* The field program the paper came out of. */}}
+  {{- with $rel.projects }}
+  <div class="grid grid-2">
+    {{- range . }}
+    {{- $shot := .Resources.GetMatch "featured.*" }}
+    <a class="cell" href="{{ .RelPermalink }}"
+       {{- with $shot }}{{ $img := .Fill "1200x700 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
+      <span class="cell-label label">Project</span>
+      <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
+      <h3>{{ .Title }}</h3>
+      <p class="cell-sum">{{ .Params.summary }}</p>
+      <span class="cell-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  {{ partial "pagenav.html" (dict
+       "page" . "pages" (sort (where site.RegularPages "Section" "publication") "Date" "desc")
+       "earlier" "Earlier paper" "later" "Later paper") }}
+
+</article>
+{{ end }}

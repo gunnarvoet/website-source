@@ -1,0 +1,46 @@
+{{/* ------------------------------------------------------------------
+     The papers that have a page of their own.
+
+     This is not the publication list: the complete bibliography is
+     generated from Zotero and lives on the homepage, and the band head
+     says so rather than letting the shorter count read as the whole
+     record.
+
+     Named section/publication.html for the same reason as
+     section/post.html; see the note there.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $pubs := sort (where site.RegularPages "Section" "publication") "Date" "desc" -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">Papers</span>
+    <span class="mono">
+      {{- with $pubs }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
+      {{- len $pubs }} with a page
+    </span>
+  </div>
+  <h1 class="display page-title">{{ .Title | default "Papers" }}</h1>
+  <p class="page-kicker">
+    The complete list of publications is on the
+    <a href="{{ site.Home.RelPermalink }}#publications">homepage</a>. These are the ones
+    with a page of their own.
+  </p>
+</header>
+
+<section class="band">
+  <div class="ledger">
+    {{- range $pubs }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time>
+      </span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.publication }}<span class="where">{{ . | markdownify }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{ end }}

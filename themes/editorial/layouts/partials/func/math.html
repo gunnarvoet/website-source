@@ -1,0 +1,27 @@
+{{/* ------------------------------------------------------------------
+     Turns the TeX in a fragment of rendered HTML into MathML.
+
+     Academic pulls MathJax off a CDN for this. Hugo has KaTeX compiled
+     in, so the math can be typeset at build time instead: no script, no
+     external request, and no layout shift once the page has loaded. The
+     site's goldmark has no passthrough extension configured and config/
+     is off limits to this theme, so the delimiters are found in the
+     rendered HTML rather than during markdown parsing.
+
+     Takes a dict of `html` and `enabled`. Callers pass the page's
+     `math: true`, because a naive $...$ search would also fire on a
+     stray dollar sign in a code block. Display math is taken first so
+     that $$ is never read as two empty inline spans.
+     ------------------------------------------------------------------ */}}
+{{- $html := .html -}}
+{{- if .enabled -}}
+  {{- range $m := findRE `(?s)\$\$.+?\$\$` $html -}}
+    {{- $tex := substr $m 2 (sub (len $m) 4) -}}
+    {{- $html = replace $html $m (transform.ToMath $tex (dict "output" "mathml" "displayMode" true "throwOnError" false)) -}}
+  {{- end -}}
+  {{- range $m := findRE `\$[^$\n]+?\$` $html -}}
+    {{- $tex := substr $m 1 (sub (len $m) 2) -}}
+    {{- $html = replace $html $m (transform.ToMath $tex (dict "output" "mathml" "throwOnError" false)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $html -}}

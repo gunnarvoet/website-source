@@ -619,8 +619,57 @@ a.row:hover { padding-left: 12px; }
   color: var(--muted);
 }
 
+.page-kicker a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.page-kicker a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
 .eyebrow a { text-decoration: underline; text-underline-offset: 4px; }
 .eyebrow a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
+/* --- paper head ---------------------------------------------
+   A paper title is a sentence, not a name, so it takes a smaller
+   cut of the display face than a project or post title does. The
+   station strip below it carries the DOI, which for a paper is
+   the same kind of coordinate the homepage strip carries for the
+   lab.
+   ----------------------------------------------------------- */
+
+.paper-title { font-size: clamp(27px, 3.4vw, 56px); max-width: 25ch; }
+
+.byline {
+  margin: 28px 0 0;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Nine underlined names in a row is a lot of rule. Keep them hairline
+   until the pointer picks one out. */
+.byline a {
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+
+.byline a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
+.venue {
+  margin: 9px 0 0;
+  max-width: 62ch;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.station .mono a { text-decoration: underline; text-underline-offset: 4px; }
+.station .mono a:hover { color: var(--ink); }
+
+.station-links { display: flex; flex-wrap: wrap; gap: 24px; }
+.station-links a { text-decoration: underline; text-underline-offset: 4px; }
+.station-links a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
 
 /* --- plates -------------------------------------------------
    Figures that belong to the page rather than to a paragraph:
