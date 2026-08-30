@@ -34,11 +34,11 @@ Earlier this year in September we deployed two moorings in our backyard in the S
 
 Today, we successfully recovered both moorings and brought all instruments safely back on board. The weather conditions offshore were perfect for smooth mooring recoveries from the R/V Sproul, one of the smaller ships of the research fleet based in San Diego. Data analysis in the upcoming days will tell us how the moorings performed and whether adjustments are needed before the moorings will be deployed in the Rockall Trough. An exciting byproduct of the test deployment will be information on near bottom flow conditions, stratification, turbulence and buoyancy fluxes in the San Diego Trough, a region so close to Scripps Institution of Oceanography and yet not very well explored.
 
-{{< figure library="true" src="blt-pilot/final_mooring_locations.png" title="Mooring locations in the San Diego Trough." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/ctd.jpg" title="Spencer and Jeremiah getting the CTD ready." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/spencer-release.jpg" title="Spencer pinging on a mooring." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/spencer-and-brian.jpg" title="Spencer and Brian." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/thermistors.jpg" title="Bethan and Brian winding the thermistor chain onto the TSE winch." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/mavs.jpg" title="The WHOI team inspecting the recovered MAVS instruments." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/bethan.jpg" title="Bethan on the TSE winch." lightbox="true" >}}
-{{< figure library="true" src="blt-pilot/jjay.jpg" title="Jay preparing dinner." lightbox="true" >}}
+{{< figure src="final_mooring_locations.png" title="Mooring locations in the San Diego Trough." lightbox="true" >}}
+{{< figure src="ctd.jpg" title="Spencer and Jeremiah getting the CTD ready." lightbox="true" >}}
+{{< figure src="spencer-release.jpg" title="Spencer pinging on a mooring." lightbox="true" >}}
+{{< figure src="spencer-and-brian.jpg" title="Spencer and Brian." lightbox="true" >}}
+{{< figure src="thermistors.jpg" title="Bethan and Brian winding the thermistor chain onto the TSE winch." lightbox="true" >}}
+{{< figure src="mavs.jpg" title="The WHOI team inspecting the recovered MAVS instruments." lightbox="true" >}}
+{{< figure src="bethan.jpg" title="Bethan on the TSE winch." lightbox="true" >}}
+{{< figure src="jjay.jpg" title="Jay preparing dinner." lightbox="true" >}}

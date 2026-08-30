@@ -34,18 +34,18 @@ This was our second and last FLEAT (Flow Encountering Abrupt Topography) cruise 
 
 The towyos over different parts of the ridge, at different depths, showed strong vertical oscillations of isopycnals and enhanced levels of turbulent dissipation. At each site we repeated the measurements several times over a tidal cycle to be able to discern tidally and mean-flow-generated lee waves. The figure below shows measurements from the deepest lee wave survey north of Yap. Upper panels show stratification and isopycnals, the lower panels turbulent dissipation as measured with chipods.
 
-{{< figure library="true" src="cruise-rr1708/towyo3.png" title="Repeat towyo sections over Yap Ridge. Upper panels show stratification (colors) and density (contours). Lower panels show turbulent dissipation." lightbox="true" >}}
+{{< figure src="gallery/towyo3.png" title="Repeat towyo sections over Yap Ridge. Upper panels show stratification (colors) and density (contours). Lower panels show turbulent dissipation." lightbox="true" >}}
 
 For more details take a look at the [cruise report](/pdf/cruise_report_rr1708.pdf). Below are a few impressions from the cruise.
 
-{{< figure library="true" src="cruise-rr1708/revelle_anchored.jpg" title="R/V Revelle anchored near the dock in Palau" lightbox="true" >}}
+{{< figure src="gallery/revelle_anchored.jpg" title="R/V Revelle anchored near the dock in Palau" lightbox="true" >}}
 
-{{< figure library="true" src="cruise-rr1708/mp_recovery.jpg" title="Recovering a McLane Moored Profiler" lightbox="true" >}}
+{{< figure src="gallery/mp_recovery.jpg" title="Recovering a McLane Moored Profiler" lightbox="true" >}}
 
-{{< figure library="true" src="cruise-rr1708/barnacles.jpg" title="Barnacle growth on the mooring line" lightbox="true" >}}
+{{< figure src="gallery/barnacles.jpg" title="Barnacle growth on the mooring line" lightbox="true" >}}
 
-{{< figure library="true" src="cruise-rr1708/steaming.jpg" title="Underway to the next mooring site" lightbox="true" >}}
+{{< figure src="gallery/steaming.jpg" title="Underway to the next mooring site" lightbox="true" >}}
 
-{{< figure library="true" src="cruise-rr1708/flyover2.jpg" title="R/V Revelle near Velasco Reef" lightbox="true" >}}
+{{< figure src="gallery/flyover2.jpg" title="R/V Revelle near Velasco Reef" lightbox="true" >}}
 
 Photos &copy; Kirstin Fitzmorris, Conrad Luecke, Derek Young, Mika Siegelman, Pat Collins

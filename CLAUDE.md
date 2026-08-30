@@ -126,11 +126,6 @@ the latin and latin-ext subsets. The matching `@font-face` rules are hand-mainta
 `editorial.css` and have to be edited alongside it if the axes or weights change. Both families are OFL 1.1;
 `static/fonts/OFL.txt` carries the license.
 
-Known limitation: figures written with `library="true"` come from `static/img/`, which Hugo copies verbatim and
-cannot resize, so a few cruise photographs are still served at their original 4000-6000px. Their dimensions are
-read with `images.Config` so the page does not reflow, but shrinking them needs either a config change or
-moving the files into a page bundle.
-
 ## Configuration layout
 
 `config.toml` at the root is an inert compatibility stub. The real config is `config/_default/`:
@@ -219,7 +214,17 @@ publications), and cross-page links use `{{< ref "/project/samoan-passage" >}}`.
 `{{< icon name="github" pack="fab" ... >}}`.
 
 `ignoreFiles` in `config/_default/config.toml` excludes `.ipynb`, `.Rmd`, and their checkpoint/cache directories,
-so notebooks can sit inside content bundles without being rendered.
+so notebooks can sit inside content bundles without being rendered. It applies to content only, not to `static/`.
+
+**Put a post's photographs in its own bundle, not in `static/img/`.** Hugo copies `static/` verbatim and cannot
+resize anything in it, so a figure written as `{{< figure library="true" src="cruise-x/photo.jpg" >}}` served
+the original at whatever the camera produced. Write `{{< figure src="photo.jpg" >}}` against a file in the
+bundle instead, and both themes' figure shortcodes put it through `Fit "2000x2000"`.
+
+`content/post/_index.md` cascades `build.publishResources = false` over every post. Hugo otherwise publishes
+every bundle resource whether or not a template asks for it, which would put the original next to the resized
+copy on the server. With it set, only what a template actually references is published. If you ever link a
+bundle file directly rather than through a template, it will 404 until something processes it.
 
 The CV is a committed binary at `static/files/cv.pdf`, linked from the nav bar; it is produced outside this repo.
 
