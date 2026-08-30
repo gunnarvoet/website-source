@@ -1,0 +1,21 @@
+{{- $author := partial "func/author.html" . -}}
+{{/* The homepage is the author's page, so it is titled for the person.
+     Every other page names itself and hangs the person off the end. */}}
+{{- $title := printf "%s — %s" $author.Params.name $author.Params.role -}}
+{{- $desc  := $author.Params.bio -}}
+{{- if not .IsHome -}}
+  {{- $title = printf "%s · %s" .Title $author.Params.name -}}
+  {{- $desc  = or .Description (.Summary | plainify | truncate 180) -}}
+{{- end -}}
+{{- $css := resources.Get "css/editorial.css" | fingerprint -}}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}">
+  <link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+</head>

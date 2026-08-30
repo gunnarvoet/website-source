@@ -1,0 +1,25 @@
+{{/* ------------------------------------------------------------------
+     The editorial shell, for the home page.
+
+     Deliberately independent of Academic's own base template: no
+     Bootstrap and no academic.css are loaded, so none of them has to be
+     overridden.
+
+     Why `index-baseof.html` and not `_default/baseof.html`:
+     editorial is a theme component layered to the left of Academic, and
+     Hugo resolves base templates across the whole theme list. A
+     `_default/baseof.html` here would therefore be picked for *every*
+     page, including the ones editorial has no template for yet. Those
+     pages would pair the editorial shell with an Academic content
+     template that defines no "main" block, and render as an empty
+     frame. Scoping the base template to one page kind keeps every
+     unmigrated page falling back to Academic, shell included.
+
+     So: migrating a page type means adding both its template and its
+     own thin base template beside it, e.g. layouts/project/baseof.html.
+     Each is these same three lines; the shell itself lives once, in
+     the two shell partials.
+     ------------------------------------------------------------------ */}}
+{{ partial "shell/open.html" . }}
+{{ block "main" . }}{{ end }}
+{{ partial "shell/close.html" . }}

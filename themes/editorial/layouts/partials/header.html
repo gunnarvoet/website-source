@@ -1,0 +1,14 @@
+{{- $author := partial "func/author.html" . -}}
+<header class="site-header">
+  <a class="brand" href="#top">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
+  <nav class="nav label" aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#software">Software</a>
+    <a href="#publications">Publications</a>
+    <a href="#writing">Writing</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="menu" aria-label="Toggle menu"
+          onclick="document.body.classList.toggle('menu-open')">&#9776;</button>
+</header>

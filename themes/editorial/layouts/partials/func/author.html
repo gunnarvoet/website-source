@@ -1,0 +1,16 @@
+{{/* ------------------------------------------------------------------
+     Returns the site's primary author as a page, so callers can read
+     .Params and .Content from it.
+
+     Academic marks that author with `superuser: true` in
+     content/authors/<name>/_index.md, which is a stabler handle than the
+     bundle's slug: renaming the folder does not break every template.
+     ------------------------------------------------------------------ */}}
+{{- $author := "" -}}
+{{- range first 1 (where (where site.Pages "Type" "authors") "Params.superuser" true) -}}
+  {{- $author = . -}}
+{{- end -}}
+{{- if not $author -}}
+  {{- errorf "editorial: no author bundle under content/authors/ carries `superuser: true`" -}}
+{{- end -}}
+{{- return $author -}}

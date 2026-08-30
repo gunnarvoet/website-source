@@ -1,0 +1,19 @@
+{{/* ------------------------------------------------------------------
+     Everything above a page's content: the document, the head, the
+     sticky header, and the <main> element whose #top anchor is what the
+     brand link points at. Paired with shell/close.html.
+
+     This lives in a partial rather than in a base template because a
+     base template cannot be shared through a partial: {{ block }} is
+     only recognised in the base template file itself. See the note in
+     index-baseof.html for why editorial must not ship one _default
+     base template for every page type.
+     ------------------------------------------------------------------ */}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+{{ partial "head.html" . }}
+<body>
+
+{{ partial "header.html" . }}
+
+<main id="top">

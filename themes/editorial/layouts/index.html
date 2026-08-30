@@ -1,17 +1,12 @@
 {{/* ------------------------------------------------------------------
-     Editorial homepage prototype (throwaway).
-
-     Deliberately a standalone document: it does not call the theme's
-     baseof.html, so no Bootstrap or Academic CSS is loaded and none of
-     it has to be overridden. Delete this file and assets/css/editorial.css
-     to return the homepage to the widget page.
+     Editorial homepage.
 
      All content is read from the real site: the author bundle, the
      project section, the home widget files, params.toml, and the
-     generated bibliography.
+     generated bibliography. Nothing below is transcribed by hand.
      ------------------------------------------------------------------ */}}
-
-{{- $author   := site.GetPage "/authors/gunnar" -}}
+{{ define "main" }}
+{{- $author   := partial "func/author.html" . -}}
 {{- $home     := site.GetPage "/home/index.md" -}}
 {{- $software := $home.Resources.GetMatch "software.md" -}}
 {{- $data     := $home.Resources.GetMatch "data.md" -}}
@@ -24,38 +19,7 @@
 {{- $biblio := readFile "static/files/bibliography.md" | replaceRE "^---[\\s\\S]+?---" "" -}}
 {{- $biblio  = replaceRE "<h3 class=\"pub-year\">([0-9]{4})</h3>" "<h3 class=\"pub-year\" id=\"y$1\">$1</h3>" $biblio -}}
 {{- $years   := apply (findRE "<h3 class=\"pub-year\" id=\"y[0-9]{4}\">[0-9]{4}</h3>" $biblio) "replaceRE" "^.*>([0-9]{4})</h3>$" "$1" "." -}}
-{{- $css      := resources.Get "css/editorial.css" | fingerprint -}}
 {{- $addr     := site.Params.address -}}
-<!DOCTYPE html>
-<html lang="{{ site.Language.Lang | default "en" }}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $author.Params.name }} — {{ $author.Params.role }}</title>
-  <meta name="description" content="{{ $author.Params.bio }}">
-  <link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
-</head>
-<body>
-
-<header class="site-header">
-  <a class="brand" href="#top">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
-  <nav class="nav label" aria-label="Main navigation">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#software">Software</a>
-    <a href="#publications">Publications</a>
-    <a href="#writing">Writing</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <button class="menu" aria-label="Toggle menu"
-          onclick="document.body.classList.toggle('menu-open')">&#9776;</button>
-</header>
-
-<main id="top">
 
   {{/* Hero: a working photograph, not a portrait. The thesis of the
        research reads across it in one condensed line. */}}
@@ -205,21 +169,4 @@
     </dl>
   </section>
 
-</main>
-
-<footer class="site-footer label">
-  <div>&copy; {{ now.Format "2006" }} {{ $author.Params.name }}</div>
-  {{/* The author bundle stores icon names, not link text. This page carries
-       no icon font, so name the destinations instead. */}}
-  {{ $names := dict "book-open" "OpenAlex" "github" "GitHub" "orcid" "ORCID" "mastodon" "Mastodon" "cv" "CV" }}
-  <div class="footer-links">
-    {{ range $item := $author.Params.social }}
-      {{ $label := index $names $item.icon }}
-      {{ if $label }}<a href="{{ $item.link | relURL }}">{{ $label }}</a>{{ end }}
-    {{ end }}
-    <a href="mailto:{{ site.Params.email }}">Email</a>
-  </div>
-</footer>
-
-</body>
-</html>
+{{ end }}
