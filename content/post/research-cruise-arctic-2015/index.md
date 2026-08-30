@@ -8,6 +8,10 @@ authors: []
 tags: [arctic, research-cruise]
 categories: []
 date: "2015-09-01"
+
+# Approximate center of the working area, not a station position.
+location: "Beaufort Sea"
+coordinates: {latitude: 72.0, longitude: -145.0, zoom: 4}
 featured: false
 draft: false
 reading_time: false

@@ -6,7 +6,9 @@
      either side of it in time.
      ------------------------------------------------------------------ */}}
 {{ define "main" }}
-{{- $rel := partial "func/related.html" . -}}
+{{- $rel   := partial "func/related.html" . -}}
+{{- $place := .Params.location -}}
+{{- $where := .Params.coordinates -}}
 
 <article>
 
@@ -27,6 +29,25 @@
     <p class="page-kicker">{{ . }}</p>
     {{- end }}
   </header>
+
+  {{/* Where the post was written from, when it has a where: a cruise
+       working area, a mooring site. A note about a tool has neither
+       field and skips the bar entirely. Both halves are optional on
+       their own, so a place can be named without pinning it.
+
+       The coordinates locate a working area rather than a station, so
+       the default zoom is wide; a post can set its own in
+       `coordinates.zoom`. Most of these pins land in open water with
+       nothing around them, which is the correct picture. */}}
+  {{- if or $place $where }}
+  <section class="station station-place">
+    <div class="label">{{ with $place }}{{ . }}{{ end }}</div>
+    {{- with $where }}
+    {{ partial "coords.html" (dict
+         "lat" .latitude "lon" .longitude "zoom" (.zoom | default 6)) }}
+    {{- end }}
+  </section>
+  {{- end }}
 
   {{ partial "plate.html" . }}
 

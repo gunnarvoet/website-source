@@ -8,6 +8,10 @@ authors: []
 tags: [ttide, research-cruise]
 categories: []
 date: "2015-03-10"
+
+# Approximate center of the working area, not a station position.
+location: "Tasman Sea"
+coordinates: {latitude: -43.0, longitude: 149.5, zoom: 6}
 featured: false
 draft: false
 reading_time: false

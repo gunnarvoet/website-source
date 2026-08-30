@@ -8,6 +8,10 @@ authors: []
 tags: [fleat, research-cruise]
 categories: []
 date: "2017-06-01"
+
+# Approximate center of the working area, not a station position.
+location: "North of Palau"
+coordinates: {latitude: 8.2, longitude: 134.6, zoom: 6}
 #lastmod: 2019-10-26T13:19:37-07:00
 featured: false
 draft: false

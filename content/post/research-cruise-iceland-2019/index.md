@@ -8,6 +8,10 @@ authors: []
 tags: [niskine, research-cruise]
 categories: []
 date: "2019-06-01"
+
+# Approximate center of the working area, not a station position.
+location: "Iceland Basin"
+coordinates: {latitude: 58.5, longitude: -21.5, zoom: 5}
 #lastmod: 2019-10-26T13:19:37-07:00
 featured: false
 draft: false

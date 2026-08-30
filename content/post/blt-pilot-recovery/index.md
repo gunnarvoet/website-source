@@ -8,6 +8,10 @@ authors: []
 tags: [blt]
 categories: []
 date: 2019-11-06T20:23:56-08:00
+
+# Approximate center of the working area, not a station position.
+location: "San Diego Trough"
+coordinates: {latitude: 32.6, longitude: -117.5, zoom: 9}
 lastmod: 2019-11-06T20:23:56-08:00
 featured: false
 draft: false
