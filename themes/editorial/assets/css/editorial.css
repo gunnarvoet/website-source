@@ -671,6 +671,15 @@ a.row:hover { padding-left: 12px; }
 .station-links a { text-decoration: underline; text-underline-offset: 4px; }
 .station-links a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
 
+/* A station bar carrying a place rather than a row of actions: the homepage
+   affiliations, a post's cruise position. It is running metadata, and a rule
+   under every line of it reads as noise, so the affordance is hover alone.
+   The coordinates keep the muted-to-ink hover from .station .mono a above;
+   only the underline goes. */
+.station-place .label a,
+.station-place .mono a { text-decoration: none; }
+.station-place .label a:hover { background: var(--ink); color: var(--paper); }
+
 /* --- plates -------------------------------------------------
    Figures that belong to the page rather than to a paragraph:
    the featured image of a project or post. Full-bleed band, but

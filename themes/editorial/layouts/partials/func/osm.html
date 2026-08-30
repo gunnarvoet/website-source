@@ -1,0 +1,14 @@
+{{/* ------------------------------------------------------------------
+     An OpenStreetMap URL: a pin at the given position, at the given
+     zoom. Takes a dict of "lat", "lon" and "zoom"; ignores anything
+     else in it, so a caller can hand it the same dict it gives
+     partials/coords.html.
+
+     Write a plain "&" below. Hugo escapes it for the attribute the URL
+     lands in, so an "&amp;" here would come out doubled and break the
+     link.
+     ------------------------------------------------------------------ */}}
+{{- $lat  := .lat -}}
+{{- $lon  := .lon -}}
+{{- $zoom := .zoom | default 12 -}}
+{{- return printf "https://www.openstreetmap.org/?mlat=%v&mlon=%v#map=%v/%v/%v" $lat $lon $zoom $lat $lon -}}

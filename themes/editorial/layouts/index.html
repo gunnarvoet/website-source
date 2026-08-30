@@ -20,6 +20,7 @@
 {{- $biblio  = replaceRE "<h3 class=\"pub-year\">([0-9]{4})</h3>" "<h3 class=\"pub-year\" id=\"y$1\">$1</h3>" $biblio -}}
 {{- $years   := apply (findRE "<h3 class=\"pub-year\" id=\"y[0-9]{4}\">[0-9]{4}</h3>" $biblio) "replaceRE" "^.*>([0-9]{4})</h3>$" "$1" "." -}}
 {{- $addr     := site.Params.address -}}
+{{- $coords   := site.Params.coordinates -}}
 
   {{/* Hero: a working photograph, not a portrait. The thesis of the
        research reads across it in one condensed line. */}}
@@ -36,17 +37,20 @@
   {{/* Station bar: the reference site's coordinate strip, which for an
        observationalist is real metadata rather than decoration. Values
        come from params.toml. */}}
-  <section class="station">
+  <section class="station station-place">
     <div class="label">
-      {{ with index $author.Params.organizations 0 }}{{ .name }}<br>{{ end }}
-      Multiscale Ocean Dynamics<br>
+      {{ with index $author.Params.organizations 0 }}
+        {{- if .url }}<a href="{{ .url }}">{{ .name }}</a>{{ else }}{{ .name }}{{ end }}<br>
+      {{- end }}
+      {{/* The group has no entry in the author bundle, so the name has always
+           been written here; its link is written here too. */}}
+      <a href="https://www.mod.ucsd.edu">Multiscale Ocean Dynamics</a><br>
       {{ $addr.city }}, {{ $addr.region }}
     </div>
-    <div class="mono">
-      {{ site.Params.coordinates.latitude }}&deg;&nbsp;N,
-      {{ strings.TrimPrefix "-" site.Params.coordinates.longitude }}&deg;&nbsp;W
-      <span aria-hidden="true">&nbsp;&#8599;</span>
-    </div>
+    {{ partial "coords.html" (dict
+         "lat" $coords.latitude "lon" $coords.longitude
+         "zoom" (site.Params.map.zoom | default 17)
+         "title" site.Params.directions) }}
   </section>
 
   {{/* Statement */}}

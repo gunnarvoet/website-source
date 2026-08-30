@@ -1,0 +1,22 @@
+{{/* ------------------------------------------------------------------
+     The right-hand cell of a station bar: a position in degrees with
+     its hemisphere, linking to that spot on OpenStreetMap. Takes
+     "lat", "lon", "zoom" and an optional "title".
+
+     Four decimals is about 11 m, which is as precise as any of these
+     positions honestly is: the office is a room, a cruise coordinate
+     is the middle of a working area. The link carries the full value.
+
+     Signs are turned into hemispheres, so the caller stores one
+     unambiguous number per axis and no template has to know that the
+     site sits west and the Tasman Sea south.
+     ------------------------------------------------------------------ */}}
+{{- $lat := float .lat -}}
+{{- $lon := float .lon -}}
+<div class="mono">
+  <a href="{{ partial "func/osm.html" . }}"{{ with .title }} title="{{ . }}"{{ end }}>
+    {{ printf "%.4f" (math.Abs $lat) }}&deg;&nbsp;{{ cond (lt $lat 0.0) "S" "N" }},
+    {{ printf "%.4f" (math.Abs $lon) }}&deg;&nbsp;{{ cond (lt $lon 0.0) "W" "E" }}
+    <span aria-hidden="true">&nbsp;&#8599;</span>
+  </a>
+</div>
