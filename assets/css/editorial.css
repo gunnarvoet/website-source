@@ -515,15 +515,31 @@ a.row:hover { padding-left: 12px; }
   .statement { gap: 34px; }
   .contact { grid-template-columns: 1fr; gap: 28px; }
   .ledger .row { grid-template-columns: 1fr; gap: 4px; }
-  .pub-wrap { grid-template-columns: 1fr; gap: 24px; }
+  /* The rail stays sticky on narrow screens, as a full-bleed strip that
+     scrolls sideways. It has to leave the grid to do it: as a grid item
+     its containing block is its own row, which gives sticky nothing to
+     travel through. As a block child of .pub-wrap it tracks the list. */
+  .pub-wrap { display: block; }
   .pub-index {
-    position: static;
+    position: sticky;
+    top: 69px;                /* tucked under the 70px mobile header */
+    z-index: 10;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 14px;
-    padding-bottom: 10px;
+    flex-wrap: nowrap;
+    gap: 17px;
+    margin: 0 calc(var(--gutter) * -1) 26px;
+    padding: 11px var(--gutter);
+    background: var(--paper);
+    border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
   }
+  .pub-index::-webkit-scrollbar { display: none; }
+  .pub-index a { flex: 0 0 auto; }
+  /* Year headings must clear the header and the rail, not just the header. */
+  .pub-year { scroll-margin-top: 122px; }
 }
 
 @media (max-width: 620px) {
