@@ -1,0 +1,34 @@
+{{/* ------------------------------------------------------------------
+     The index of a taxonomy: every tag, or every co-author.
+
+     A ledger, with the number of pages behind each term in the column
+     the other ledgers give to the date. It is the one number that says
+     anything about a term, and it sorts the list.
+     ------------------------------------------------------------------ */}}
+{{- $terms := .Data.Terms.ByCount -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">Index</span>
+    <span class="mono">{{ len $terms }} {{ .Data.Plural | humanize | lower }}</span>
+  </div>
+  <h1 class="display page-title">{{ .Title }}</h1>
+</header>
+
+{{- with $terms }}
+<section class="band">
+  <div class="ledger">
+    {{- range . }}
+    {{- $page := $.Site.GetPage (printf "/%s/%s" $.Data.Plural .Name) }}
+    {{- with $page }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ $.Data.Terms.Count $page.Data.Term | default (len $page.Pages) }}</span>
+      <span>
+        <span class="what">{{ partial "func/term-name.html" (dict "Page" .) }}</span>
+      </span>
+    </a>
+    {{- end }}
+    {{- end }}
+  </div>
+</section>
+{{- end }}

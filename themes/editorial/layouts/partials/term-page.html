@@ -1,0 +1,22 @@
+{{/* ------------------------------------------------------------------
+     One taxonomy term: a tag, a co-author, a publication type.
+
+     Everything the term collects is shown in the same bands the rest of
+     the site uses, so /tags/samoan-passage/ reads as a smaller version
+     of the homepage rather than as a search result.
+     ------------------------------------------------------------------ */}}
+{{- $name := partial "func/term-name.html" (dict "Page" .) -}}
+{{- $pages := .Pages -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">{{ .Data.Singular | humanize }}</span>
+    <span class="mono">{{ len $pages }} {{ cond (eq (len $pages) 1) "page" "pages" }}</span>
+  </div>
+  <h1 class="display page-title">{{ $name }}</h1>
+  {{- with .Content }}
+  <div class="page-kicker">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{ partial "pagegroups.html" (dict "pages" $pages) }}

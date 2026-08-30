@@ -1,0 +1,4 @@
+{{/* One taxonomy term: a tag, a co-author, a publication type. The body
+     is a partial because the author taxonomy needs a second copy of this
+     template under a different name; see authors/list.html. */}}
+{{ define "main" }}{{ partial "term-page.html" . }}{{ end }}

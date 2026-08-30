@@ -1,0 +1,25 @@
+{{/* ------------------------------------------------------------------
+     The display name of a taxonomy term.
+
+     The three taxonomies in use spell their terms differently, so the
+     term page cannot just print .Title:
+       tags              written lowercase and hyphenated in front
+                         matter, so Hugo titles them "Samoan-Passage".
+                         Hyphens become spaces; .label uppercases them.
+       authors           written as real names, and some of those names
+                         contain a hyphen ("Kjell-Arne Mork"), so they
+                         are left exactly as written.
+       publication_types Academic's numeric codes. The reader is shown
+                         Academic's own name for the code, from its i18n
+                         file, rather than the digit.
+     ------------------------------------------------------------------ */}}
+{{- $term := .Page.Data.Term | default .Page.Title -}}
+{{- if eq .Page.Data.Plural "tags" -}}
+  {{- $term = replace $term "-" " " -}}
+{{- else if eq .Page.Data.Plural "publication_types" -}}
+  {{- $keys := dict "0" "pub_uncat" "1" "pub_conf" "2" "pub_journal" "3" "pub_preprint"
+                    "4" "pub_report" "5" "pub_book" "6" "pub_book_section"
+                    "7" "pub_thesis" "8" "pub_patent" -}}
+  {{- with index $keys $term }}{{ $term = i18n . }}{{ end -}}
+{{- end -}}
+{{- return $term -}}

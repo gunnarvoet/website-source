@@ -1,0 +1,6 @@
+{{/* The index of the categories taxonomy. Hugo reaches a taxonomy index only
+     through layouts/<TAXONOMY>/terms.html: neither layouts/terms.html
+     nor layouts/_default/terms.html is ever consulted for it, so every
+     configured taxonomy needs its own copy of this line. The body is a
+     partial so the four copies cannot drift apart. */}}
+{{ define "main" }}{{ partial "terms-page.html" . }}{{ end }}

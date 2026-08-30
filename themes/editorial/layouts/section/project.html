@@ -1,0 +1,36 @@
+{{/* ------------------------------------------------------------------
+     Every field program, in the same grid the homepage projects band
+     uses. Hugo has no template of its own for this section in Academic,
+     so without this file the editorial shell would wrap Academic's
+     generic list and render an empty frame.
+
+     Named section/project.html for the same reason as section/post.html;
+     see the note there.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $projects := sort (where site.RegularPages "Section" "project") "Date" "desc" -}}
+
+<header class="page-head band" style="border-bottom:0; padding-bottom:34px">
+  <div class="band-head">
+    <span class="label eyebrow">Field programs</span>
+    <span class="mono">
+      {{- with $projects }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
+      {{- len $projects }}
+    </span>
+  </div>
+  <h1 class="display page-title">{{ .Title | default "Projects" }}</h1>
+</header>
+
+<div class="grid">
+  {{- range $projects }}
+  {{- $shot := .Resources.GetMatch "featured.*" }}
+  <a class="cell" href="{{ .RelPermalink }}"
+     {{- with $shot }}{{ $img := .Fill "760x900 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
+    <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
+    <h3>{{ .Title }}</h3>
+    <p class="cell-sum">{{ .Params.summary }}</p>
+    <span class="cell-arrow" aria-hidden="true">&#8594;</span>
+  </a>
+  {{- end }}
+</div>
+{{ end }}

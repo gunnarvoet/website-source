@@ -1,0 +1,83 @@
+{{/* ------------------------------------------------------------------
+     A mixed list of pages, split into the bands the rest of the site
+     uses: projects as cells of the grid, everything else as a ruled
+     ledger. Empty groups render nothing.
+
+     Takes a dict of `pages`.
+     ------------------------------------------------------------------ */}}
+{{- $pages := .pages -}}
+{{- $projects := sort (where $pages "Section" "project") "Date" "desc" -}}
+{{- $pubs     := sort (where $pages "Section" "publication") "Date" "desc" -}}
+{{- $posts    := sort (where $pages "Section" "post") "Date" "desc" -}}
+{{- $talks    := sort (where $pages "Section" "talk") "Date" "desc" -}}
+
+{{- with $projects }}
+<section>
+  <div class="band" style="border-bottom:0; padding-bottom:0">
+    <div class="band-head"><h2>Projects</h2><span class="mono">{{ len . }}</span></div>
+  </div>
+  <div class="grid grid-2">
+    {{- range . }}
+    {{- $shot := .Resources.GetMatch "featured.*" }}
+    <a class="cell" href="{{ .RelPermalink }}"
+       {{- with $shot }}{{ $img := .Fill "1200x700 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
+      <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
+      <h3>{{ .Title }}</h3>
+      <p class="cell-sum">{{ .Params.summary }}</p>
+      <span class="cell-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with $pubs }}
+<section class="band">
+  <div class="band-head"><h2>Papers</h2><span class="mono">{{ len . }}</span></div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ .Date.Format "2006" }}</span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.publication }}<span class="where">{{ . | markdownify }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with $posts }}
+<section class="band">
+  <div class="band-head"><h2>Writing</h2><span class="mono">{{ len . }}</span></div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ .Date.Format "2006 Jan 02" }}</span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with (or .Params.summary .Params.subtitle) }}<span class="where">{{ . }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with $talks }}
+<section class="band">
+  <div class="band-head"><h2>Talks</h2><span class="mono">{{ len . }}</span></div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ .Date.Format "2006 Jan 02" }}</span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.event }}<span class="where">{{ . }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}

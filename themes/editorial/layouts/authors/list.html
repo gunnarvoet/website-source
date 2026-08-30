@@ -1,0 +1,6 @@
+{{/* One co-author, as a taxonomy term.
+
+     Academic ships layouts/authors/list.html, which outranks
+     _default/term.html for the author taxonomy, so this second name has
+     to exist. The body is the same partial, so the two cannot drift. */}}
+{{ define "main" }}{{ partial "term-page.html" . }}{{ end }}

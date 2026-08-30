@@ -1,0 +1,37 @@
+{{/* ------------------------------------------------------------------
+     Every conference contribution, as one ruled ledger with the meeting
+     on the second line.
+
+     Named section/talk.html for the same reason as section/post.html;
+     see the note there.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $talks := sort (where site.RegularPages "Section" "talk") "Date" "desc" -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">Talks</span>
+    <span class="mono">
+      {{- with $talks }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
+      {{- len $talks }}
+    </span>
+  </div>
+  <h1 class="display page-title">{{ .Title | default "Talks" }}</h1>
+</header>
+
+<section class="band">
+  <div class="ledger">
+    {{- range $talks }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 Jan 02" }}</time>
+      </span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.event }}<span class="where">{{ . }}{{ with $.Params.location }}, {{ . }}{{ end }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{ end }}

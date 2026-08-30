@@ -1,0 +1,64 @@
+{{/* ------------------------------------------------------------------
+     A conference contribution. The meeting is the page's other subject,
+     so it sits in the station strip beside the place it was given, where
+     a paper page puts its DOI.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+
+<article>
+
+  <header class="page-head band">
+    <div class="band-head">
+      <span class="label eyebrow">
+        Talk
+        {{- range $tag := .Params.tags }}
+          {{- with site.GetPage (printf "/tags/%s" (urlize $tag)) }} &middot; <a href="{{ .RelPermalink }}">{{ replace $tag "-" " " }}</a>{{ end }}
+        {{- end }}
+      </span>
+      <span class="mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 Jan 02" }}</time>
+      </span>
+    </div>
+    <h1 class="display page-title paper-title">{{ .Title }}</h1>
+    {{- with .Params.event }}
+    <p class="byline">
+      {{- with $.Params.event_url }}<a href="{{ . }}">{{ $.Params.event }}</a>{{ else }}{{ . }}{{ end }}
+    </p>
+    {{- end }}
+  </header>
+
+  {{- if or .Params.location .Params.url_slides .Params.url_video .Params.url_pdf .Params.url_code }}
+  <section class="station">
+    <div class="mono">{{ with .Params.location }}{{ . }}{{ end }}</div>
+    <div class="station-links label">
+      {{- with .Params.url_slides }}<a href="{{ . }}">Slides</a>{{ end }}
+      {{- with $.Params.url_video }}<a href="{{ . }}">Video</a>{{ end }}
+      {{- with $.Params.url_pdf }}<a href="{{ . }}">PDF</a>{{ end }}
+      {{- with $.Params.url_code }}<a href="{{ . }}">Code</a>{{ end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{ partial "plate.html" . }}
+
+  {{- with .Params.abstract }}
+  <section class="band">
+    <div class="band-head"><h2>Abstract</h2></div>
+    <div class="longform">
+      <div>{{ partial "func/math.html" (dict "html" (. | markdownify) "enabled" $.Params.math) | safeHTML }}</div>
+    </div>
+  </section>
+  {{- end }}
+
+  {{- with partial "func/content.html" . }}
+  <section class="band">
+    <div class="longform">{{ . | safeHTML }}</div>
+  </section>
+  {{- end }}
+
+  {{ partial "pagenav.html" (dict
+       "page" . "pages" (sort (where site.RegularPages "Section" "talk") "Date" "desc")
+       "earlier" "Earlier talk" "later" "Later talk") }}
+
+</article>
+{{ end }}
