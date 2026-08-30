@@ -50,20 +50,20 @@ copy of any theme file at the matching root path wins, color and font themes com
 
 ## Editorial theme (in progress)
 
-`themes/editorial/` is a second, unfinished look: paper ground, hairline band grid, condensed uppercase
-Archivo. It is a plain tracked directory, not a submodule, and currently defines only `layouts/index.html`
-plus `assets/css/editorial.css`. Run it with:
+`themes/editorial/` is a second look: paper ground, hairline band grid, condensed uppercase Archivo. It is a
+plain tracked directory, not a submodule. Run it with:
 
     make serve-editorial     # hugo server -D --port 1414 --theme editorial,hugo-academic-theme
 
 It is a **theme component, not a replacement**. Hugo resolves the `--theme` list left to right, so editorial
-supplies the homepage and Academic supplies every template editorial does not define; project pages, posts and
-publication pages still render in the Academic look. Migrate a page type by adding its template under
-`themes/editorial/layouts/`.
+supplies whatever it defines and Academic supplies the rest. Editorial now defines a template for every page
+kind the site produces, so the whole editorial build renders in the editorial look; Academic is still the
+fallback, and removing a template from `themes/editorial/layouts/` returns that page type to it.
 
 Nothing in `config/` selects it. `config/_default/config.toml` still says `theme = "hugo-academic-theme"`, so
 `make serve`, a bare `hugo`, and the GitHub deploy all build the Academic site untouched. Keep it that way
-until the theme is finished.
+until the theme is finished. After any change, verify both: a bare `hugo` must produce the Academic site with
+no editorial markup in it, and `hugo --theme editorial,hugo-academic-theme` must produce the editorial one.
 
 Do **not** develop this theme from the root-level `layouts/` or `assets/`. The project root wins over every
 theme in Hugo's lookup order, so a homepage layout placed there is not optional, it is the homepage, and it
@@ -73,15 +73,63 @@ The `--theme` flag can only swap templates, not configuration. When editorial ne
 different `params.toml` values, move the switch to a config environment (`config/editorial/`, selected with
 `hugo --environment editorial`) rather than trying to bend the flag.
 
-The homepage template reads real site content, so it stays in sync on its own: the author bundle, the
-`project` section, the `software.md` and `data.md` widget bodies, `params.toml` (contact details and the
-coordinates in the station bar), and `static/files/bibliography.md`.
+### Layout structure
+
+The shell is `partials/shell/open.html` and `partials/shell/close.html`, with `head.html`, `header.html` and
+`footer.html` inside them. Page templates are `{{ define "main" }}` blocks.
+
+**There is deliberately no `layouts/_default/baseof.html`.** Hugo resolves base templates across the whole
+`--theme` list, so a `_default` one here would be picked for every page, including any that editorial has no
+template for; those would pair the editorial shell with an Academic content template that defines no `main`
+block and render as an empty frame. Instead each page kind gets its own three-line base template
+(`index-baseof.html`, `project/baseof.html`, `post/baseof.html`, and so on) that calls the two shell partials
+around a `{{ block "main" }}`. A base template cannot be shared through a partial, because `{{ block }}` is
+only recognised in the base template file itself, which is why those three lines are repeated.
+
+Two lookup traps cost time; both are commented in the files:
+
+- `layouts/section/<SECTION>.html` outranks `layouts/<SECTION>/list.html`, and Academic ships
+  `section/post.html`, `section/publication.html` and `section/talk.html`. Section lists therefore live in
+  `themes/editorial/layouts/section/`.
+- A taxonomy index is reached **only** through `layouts/<TAXONOMY>/terms.html`. Neither `layouts/terms.html`
+  nor `layouts/_default/terms.html` is ever consulted, so all four configured taxonomies carry their own copy.
+  Academic also ships `layouts/authors/list.html`, which outranks `_default/term.html` for the author
+  taxonomy, so that name exists here too. All of them are one line over a shared partial.
+
+Shared partials: `plate.html` (a page's featured image as a full-bleed band, honouring Academic's
+`image.preview_only`), `pagenav.html` (the neighbouring pages as cells of the projects grid),
+`related.html` and `pagegroups.html` (bands built from real links in the content), and under `func/`, partials
+that return values rather than markup: `author.html`, `content.html`, `math.html`, `related.html`,
+`term-name.html`.
+
+`shortcodes/figure.html` overrides Academic's. Academic's hands the image to lazysizes as `data-src` with
+`class="lazyload"` and wraps it in a fancybox trigger, and the editorial shell loads neither script, so every
+figure in the cruise posts would render as an empty box.
+
+Math is typeset at build time. Academic pulls MathJax off a CDN; `func/math.html` hands the TeX to Hugo's
+built-in KaTeX (`transform.ToMath`) and emits MathML instead, so there is no script and no external request.
+The site's goldmark has no passthrough extension and `config/` is off limits to this theme, so the delimiters
+are found in the rendered HTML rather than during markdown parsing, and only pages with `math: true` are
+scanned.
+
+### Content coupling
+
+Every template reads real site content, so the theme stays in sync on its own: the author bundle (found by
+`superuser: true`, not by slug), the `project` section, the `software.md` and `data.md` widget bodies,
+`params.toml`, and `static/files/bibliography.md`. Pages are linked to each other through the `tags` and
+`projects` front matter that already exists, which is what fills the "Papers", "From the field" and "Project"
+bands. Nothing is transcribed by hand.
 
 Archivo and IBM Plex Mono are self-hosted from `themes/editorial/static/fonts/`, so the theme makes no request
 to Google Fonts. `themes/editorial/fetch-fonts.sh` refreshes those files from the Google Fonts CSS API, keeping
 the latin and latin-ext subsets. The matching `@font-face` rules are hand-maintained at the top of
 `editorial.css` and have to be edited alongside it if the axes or weights change. Both families are OFL 1.1;
 `static/fonts/OFL.txt` carries the license.
+
+Known limitation: figures written with `library="true"` come from `static/img/`, which Hugo copies verbatim and
+cannot resize, so a few cruise photographs are still served at their original 4000-6000px. Their dimensions are
+read with `images.Config` so the page does not reflow, but shrinking them needs either a config change or
+moving the files into a page bundle.
 
 ## Configuration layout
 
