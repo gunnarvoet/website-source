@@ -1,0 +1,221 @@
+{{/* ------------------------------------------------------------------
+     Editorial homepage prototype (throwaway).
+
+     Deliberately a standalone document: it does not call the theme's
+     baseof.html, so no Bootstrap or Academic CSS is loaded and none of
+     it has to be overridden. Delete this file and assets/css/editorial.css
+     to return the homepage to the widget page.
+
+     All content is read from the real site: the author bundle, the
+     project section, the home widget files, params.toml, and the
+     generated bibliography.
+     ------------------------------------------------------------------ */}}
+
+{{- $author   := site.GetPage "/authors/gunnar" -}}
+{{- $home     := site.GetPage "/home/index.md" -}}
+{{- $software := $home.Resources.GetMatch "software.md" -}}
+{{- $data     := $home.Resources.GetMatch "data.md" -}}
+{{- $expPage  := $home.Resources.GetMatch "experience.md" -}}
+{{- $projects := sort (where site.RegularPages "Section" "project") "Date" "desc" -}}
+{{- $posts    := first 5 (sort (where site.RegularPages "Section" "post") "Date" "desc") -}}
+{{/* The bibliography is generated markup (scripts/build_biblio.py). Give each
+     year heading an id so the sticky rail can jump to it, then collect the
+     years for that rail. */}}
+{{- $biblio := readFile "static/files/bibliography.md" | replaceRE "^---[\\s\\S]+?---" "" -}}
+{{- $biblio  = replaceRE "<h3 class=\"pub-year\">([0-9]{4})</h3>" "<h3 class=\"pub-year\" id=\"y$1\">$1</h3>" $biblio -}}
+{{- $years   := apply (findRE "<h3 class=\"pub-year\" id=\"y[0-9]{4}\">[0-9]{4}</h3>" $biblio) "replaceRE" "^.*>([0-9]{4})</h3>$" "$1" "." -}}
+{{- $css      := resources.Get "css/editorial.css" | fingerprint -}}
+{{- $addr     := site.Params.address -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ $author.Params.name }} — {{ $author.Params.role }}</title>
+  <meta name="description" content="{{ $author.Params.bio }}">
+  <link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#top">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
+  <nav class="nav label" aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#software">Software</a>
+    <a href="#publications">Publications</a>
+    <a href="#writing">Writing</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="menu" aria-label="Toggle menu"
+          onclick="document.body.classList.toggle('menu-open')">&#9776;</button>
+</header>
+
+<main id="top">
+
+  {{/* Hero: a working photograph, not a portrait. The thesis of the
+       research reads across it in one condensed line. */}}
+  <section class="hero">
+    <img class="hero-image" src="{{ "img/cruise-rr1607/revelle_blue.jpg" | relURL }}"
+         alt="R/V Roger Revelle under way on the open ocean">
+    <div class="hero-content">
+      <h1 class="display">Small scales,<br>big ocean</h1>
+      <p class="hero-kicker">Dense overflows, internal waves and turbulent mixing.<br>
+        Observed at sea, from the surface to the abyss.</p>
+    </div>
+  </section>
+
+  {{/* Station bar: the reference site's coordinate strip, which for an
+       observationalist is real metadata rather than decoration. Values
+       come from params.toml. */}}
+  <section class="station">
+    <div class="label">
+      {{ with index $author.Params.organizations 0 }}{{ .name }}<br>{{ end }}
+      Multiscale Ocean Dynamics<br>
+      {{ $addr.city }}, {{ $addr.region }}
+    </div>
+    <div class="mono">
+      {{ site.Params.coordinates.latitude }}&deg;&nbsp;N,
+      {{ strings.TrimPrefix "-" site.Params.coordinates.longitude }}&deg;&nbsp;W
+      <span aria-hidden="true">&nbsp;&#8599;</span>
+    </div>
+  </section>
+
+  {{/* Statement */}}
+  <section class="band statement" id="about">
+    <h2>Small-scale processes set the large-scale circulation.</h2>
+    <div class="statement-body">
+      {{ $author.Content }}
+      <ul class="interests label">
+        {{ range $author.Params.interests }}<li><span>{{ . }}</span></li>{{ end }}
+      </ul>
+    </div>
+  </section>
+
+  {{/* Projects: the signature band. Full-bleed hairline cells that
+       inverate to the abyss color on hover and keyboard focus. */}}
+  <section id="projects">
+    <div class="band" style="border-bottom:0; padding-bottom:0">
+      <div class="band-head">
+        <h2>Projects</h2>
+        <span class="mono">{{ len $projects }} field programs</span>
+      </div>
+    </div>
+    <div class="grid">
+      {{ range $projects }}
+      <a class="cell" href="{{ .RelPermalink }}">
+        <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
+        <h3>{{ .Title }}</h3>
+        <p class="cell-sum">{{ .Params.summary }}</p>
+        <span class="cell-arrow" aria-hidden="true">&#8594;</span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* Software and data, side by side across one hairline */}}
+  <section class="split" id="software">
+    <div>
+      <div class="band-head"><h2>Software</h2><span class="mono">open source</span></div>
+      <div class="prose">
+        {{ $software.Content | replaceRE "<i [^>]*></i>" "" | replaceRE "(?s)<p>I\\s+Open Source\\.</p>" "" | safeHTML }}
+      </div>
+    </div>
+    <div id="data">
+      <div class="band-head"><h2>Data</h2><span class="mono">archived</span></div>
+      <div class="prose">
+        {{ $data.Content | replaceRE "<i [^>]*></i>" "" | safeHTML }}
+      </div>
+    </div>
+  </section>
+
+  {{/* Publications: the generated bibliography, restyled in place */}}
+  <section class="band" id="publications">
+    <div class="band-head">
+      <h2>Publications</h2>
+      <a class="mono" href="{{ "files/gv.bib" | relURL }}">gv.bib &#8599;</a>
+    </div>
+    <div class="pub-wrap">
+      <nav class="pub-index mono" aria-label="Publications by year">
+        {{ range $years }}<a href="#y{{ . }}">{{ . }}</a>{{ end }}
+      </nav>
+      <div>{{ $biblio | safeHTML }}</div>
+    </div>
+  </section>
+
+  {{/* Writing */}}
+  {{ with $posts }}
+  <section class="band" id="writing">
+    <div class="band-head"><h2>Writing</h2><span class="mono">{{ len . }} recent</span></div>
+    <div class="ledger">
+      {{ range . }}
+      <a class="row" href="{{ .RelPermalink }}">
+        <span class="when mono">{{ .Date.Format "2006 Jan 02" }}</span>
+        <span>
+          <span class="what">{{ .Title }}</span>
+          {{ with .Params.summary }}<span class="where">{{ . }}</span>{{ end }}
+        </span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* Experience */}}
+  <section class="band" id="experience">
+    <div class="band-head"><h2>Experience</h2></div>
+    <div class="ledger">
+      {{ range $expPage.Params.experience }}
+      <div class="row">
+        <span class="when mono">
+          {{ dateFormat "Jan 2006" (time .date_start) }} &ndash;
+          {{ if .date_end }}{{ dateFormat "Jan 2006" (time .date_end) }}{{ else }}present{{ end }}
+        </span>
+        <span>
+          <span class="what">{{ .title }}</span>
+          <span class="where">{{ .company }}{{ with .location }}, {{ . }}{{ end }}</span>
+        </span>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* Contact: the single inverted band, and the page's last word */}}
+  <section class="contact" id="contact">
+    <h2>Get<br>in touch</h2>
+    <dl>
+      <dt class="label">Email</dt>
+      <dd><a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></dd>
+      <dt class="label">Phone</dt>
+      <dd class="mono">{{ site.Params.phone }}</dd>
+    </dl>
+    <dl>
+      <dt class="label">Mail</dt>
+      <dd>{{ $addr.street }}<br>{{ $addr.city }}, {{ $addr.region }} {{ $addr.postcode }}<br>{{ $addr.country }}</dd>
+      <dt class="label">Curriculum vitae</dt>
+      <dd><a href="{{ "files/cv.pdf" | relURL }}">cv.pdf</a></dd>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="site-footer label">
+  <div>&copy; {{ now.Format "2006" }} {{ $author.Params.name }}</div>
+  {{/* The author bundle stores icon names, not link text. This page carries
+       no icon font, so name the destinations instead. */}}
+  {{ $names := dict "book-open" "OpenAlex" "github" "GitHub" "orcid" "ORCID" "mastodon" "Mastodon" "cv" "CV" }}
+  <div class="footer-links">
+    {{ range $item := $author.Params.social }}
+      {{ $label := index $names $item.icon }}
+      {{ if $label }}<a href="{{ $item.link | relURL }}">{{ $label }}</a>{{ end }}
+    {{ end }}
+    <a href="mailto:{{ site.Params.email }}">Email</a>
+  </div>
+</footer>
+
+</body>
+</html>
