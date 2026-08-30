@@ -263,6 +263,8 @@ img { display: block; max-width: 100%; }
 }
 
 .cell {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   min-height: 300px;
@@ -271,6 +273,32 @@ img { display: block; max-width: 100%; }
   border-bottom: 1px solid var(--line);
   transition: background-color .18s ease, color .18s ease;
 }
+
+/* The project's own featured image fades in behind the cell on hover.
+   The scrim is weighted: heavy where the year, title and summary sit,
+   clearing toward the foot of the cell so the figure itself is legible.
+   It has to hold up over subjects as different as a white schematic and
+   a dark satellite map, and is what shows alone if a project has no
+   image. */
+.cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background-image:
+    linear-gradient(to bottom,
+      rgba(9, 28, 34, .88) 0%,
+      rgba(9, 28, 34, .84) 50%,
+      rgba(9, 28, 34, .30) 100%),
+    var(--shot, none);
+  background-size: cover;
+  background-position: center;
+  transition: opacity .22s ease;
+}
+
+.cell:hover::before,
+.cell:focus-visible::before { opacity: 1; }
 
 .cell:nth-child(4n) { border-right: 0; }
 

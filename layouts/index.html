@@ -107,7 +107,11 @@
     </div>
     <div class="grid">
       {{ range $projects }}
-      <a class="cell" href="{{ .RelPermalink }}">
+      {{/* Each bundle carries its own featured.jpg/png; hand it to the
+           cell as a custom property for the hover state. */}}
+      {{ $shot := .Resources.GetMatch "featured.*" }}
+      <a class="cell" href="{{ .RelPermalink }}"
+         {{- with $shot }}{{ $img := .Fill "760x900 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
         <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
         <h3>{{ .Title }}</h3>
         <p class="cell-sum">{{ .Params.summary }}</p>
