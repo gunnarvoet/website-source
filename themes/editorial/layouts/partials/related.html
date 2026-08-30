@@ -1,0 +1,38 @@
+{{/* Related publications and writing, as ruled ledgers. Each band is
+     skipped entirely when the tag turns up nothing, which is the case
+     for the newest field programs. */}}
+{{- $rel := partial "func/related.html" . -}}
+
+{{- with $rel.publications }}
+<section class="band">
+  <div class="band-head"><h2>Papers</h2><span class="mono">{{ len . }}</span></div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ .Date.Format "2006" }}</span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.publication }}<span class="where">{{ . | markdownify }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with $rel.posts }}
+<section class="band">
+  <div class="band-head"><h2>From the field</h2><span class="mono">{{ len . }}</span></div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">{{ .Date.Format "2006 Jan 02" }}</span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with .Params.summary }}<span class="where">{{ . }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}

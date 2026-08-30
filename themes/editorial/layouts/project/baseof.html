@@ -1,0 +1,6 @@
+{{/* The editorial shell for project pages. Three lines by design; the
+     shell itself lives once, in the two shell partials. See the note in
+     index-baseof.html for why editorial ships no _default base template. */}}
+{{ partial "shell/open.html" . }}
+{{ block "main" . }}{{ end }}
+{{ partial "shell/close.html" . }}

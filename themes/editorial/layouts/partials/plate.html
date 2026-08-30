@@ -1,0 +1,23 @@
+{{/* ------------------------------------------------------------------
+     A page's featured image, as a full-bleed plate.
+
+     Academic's `image.preview_only` means the picture is a listing
+     thumbnail and does not belong on the page itself, so honour it and
+     render nothing. The image is never scaled past its own pixels: the
+     figures here run from a 972px schematic to a 6585px photograph, and
+     stretching the narrow ones across a wide viewport would soften the
+     very detail they exist to show.
+     ------------------------------------------------------------------ */}}
+{{- $shot := .Resources.GetMatch "featured.*" -}}
+{{- $meta := .Params.image | default dict -}}
+{{- if and $shot (not $meta.preview_only) -}}
+  {{- $img := $shot -}}
+  {{- if gt $shot.Width 2400 }}{{ $img = $shot.Resize "2400x" }}{{ end -}}
+<figure class="plate">
+  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
+       style="max-width:{{ $img.Width }}px" alt="{{ .Title }}">
+  {{- with $meta.caption }}
+  <figcaption class="plate-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
+{{- end -}}

@@ -1,13 +1,19 @@
 {{- $author := partial "func/author.html" . -}}
+{{/* The nav points at the homepage's own sections, so from an inner page
+     every item has to carry the home URL as well as the fragment. On the
+     homepage itself these stay same-document links and still just scroll.
+     The brand is the exception: on the homepage it is a scroll to the top,
+     everywhere else it is the way home. */}}
+{{- $home := site.Home.RelPermalink -}}
 <header class="site-header">
-  <a class="brand" href="#top">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
+  <a class="brand" href="{{ if .IsHome }}#top{{ else }}{{ $home }}{{ end }}">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
   <nav class="nav label" aria-label="Main navigation">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#software">Software</a>
-    <a href="#publications">Publications</a>
-    <a href="#writing">Writing</a>
-    <a href="#contact">Contact</a>
+    <a href="{{ $home }}#about">About</a>
+    <a href="{{ $home }}#projects">Projects</a>
+    <a href="{{ $home }}#software">Software</a>
+    <a href="{{ $home }}#publications">Publications</a>
+    <a href="{{ $home }}#writing">Writing</a>
+    <a href="{{ $home }}#contact">Contact</a>
   </nav>
   <button class="menu" aria-label="Toggle menu"
           onclick="document.body.classList.toggle('menu-open')">&#9776;</button>

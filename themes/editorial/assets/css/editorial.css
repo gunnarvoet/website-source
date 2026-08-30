@@ -595,6 +595,190 @@ a.row:hover { padding-left: 12px; }
 
 .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
+/* --- inner page head ----------------------------------------
+   The homepage opens on a photograph; an inner page opens on its
+   own title, set in the same condensed voice. The eyebrow row
+   reuses .band-head, so the label/mono pairing reads the same as
+   every section heading on the site.
+   ----------------------------------------------------------- */
+
+.page-head { padding-bottom: 46px; }
+
+.page-head .band-head { margin-bottom: 30px; }
+
+.page-title {
+  font-size: clamp(38px, 6.6vw, 104px);
+  max-width: 15ch;
+}
+
+.page-kicker {
+  margin: 28px 0 0;
+  max-width: 52ch;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.32;
+  color: var(--muted);
+}
+
+.eyebrow a { text-decoration: underline; text-underline-offset: 4px; }
+.eyebrow a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
+/* --- plates -------------------------------------------------
+   Figures that belong to the page rather than to a paragraph:
+   the featured image of a project or post. Full-bleed band, but
+   the image is never scaled past its own pixels, so a narrow
+   schematic sits centered on the paper instead of going soft.
+   ----------------------------------------------------------- */
+
+.plate {
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.plate img {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.plate-cap {
+  padding: 14px var(--gutter) 16px;
+  border-top: 1px solid var(--line);
+  max-width: 82ch;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.plate-cap a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* --- longform body ------------------------------------------
+   The reading column. Wider measure and looser leading than the
+   .prose blocks on the homepage, which are captions by comparison.
+   Everything structural stays a hairline.
+   ----------------------------------------------------------- */
+
+.longform {
+  max-width: 66ch;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.longform > :first-child { margin-top: 0; }
+.longform > :last-child  { margin-bottom: 0; }
+
+.longform p { margin: 0 0 1.15em; }
+
+.longform h2, .longform h3, .longform h4 {
+  margin: 2em 0 .6em;
+  font-weight: 900;
+  font-variation-settings: "wdth" 82, "wght" 900;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  line-height: 1.05;
+}
+
+.longform h2 { font-size: 27px; }
+.longform h3 { font-size: 21px; }
+.longform h4 { font-size: 17px; }
+
+.longform a { text-decoration: underline; text-underline-offset: 3px; }
+.longform a:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
+.longform ul, .longform ol { margin: 0 0 1.15em; padding-left: 1.2em; }
+.longform li { margin-bottom: .35em; }
+
+.longform blockquote {
+  margin: 1.6em 0;
+  padding-left: 22px;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.longform hr {
+  margin: 2.4em 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* Inline figures break the measure, since a section plot is
+   unreadable at 66ch. They stay inside the band's gutters. */
+.longform img { width: 100%; margin: 1.8em 0 .6em; }
+
+.longform figure { margin: 1.8em 0; }
+.longform figure img { margin: 0; }
+
+.longform figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.longform code {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: .86em;
+}
+
+.longform pre {
+  margin: 1.6em 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.longform pre code { font-size: inherit; }
+
+.longform table {
+  width: 100%;
+  margin: 1.8em 0;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.longform th, .longform td {
+  padding: 9px 14px 9px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+
+.longform th {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-bottom-color: var(--ink);
+}
+
+/* Math is typeset to MathML at build time by func/content.html, so it
+   inherits the body face and needs no stylesheet of its own. Only the
+   optical size and the block display of $$...$$ want setting. */
+
+.longform math { font-size: 1.04em; }
+
+.longform .katex:has(math[display="block"]) { display: block; }
+
+.longform math[display="block"] { margin: 1.5em 0; }
+
+/* --- page foot: where a page hands you on -------------------
+   Two cells of the same grid the homepage projects band uses, so
+   an inner page ends by putting you back where you entered it.
+   ----------------------------------------------------------- */
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-2 .cell:nth-child(4n) { border-right: 1px solid var(--line); }
+.grid-2 .cell:nth-child(2n) { border-right: 0; }
+
+/* The first and the most recent field program have only one neighbour.
+   That cell takes the whole width rather than leaving a ruled blank. */
+.grid-2 .cell:only-child { grid-column: 1 / -1; border-right: 0; }
+
+.cell-label { display: block; margin-bottom: 14px; color: var(--muted); }
+.cell:hover .cell-label, .cell:focus-visible .cell-label { color: rgba(242,240,234,.72); }
+
 /* --- responsive --------------------------------------------- */
 
 @media (max-width: 1100px) {
