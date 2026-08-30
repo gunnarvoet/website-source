@@ -3,6 +3,14 @@ serve:
 	# note: the -D option lets hugo include posts that are marked as draft
 	hugo server -D
 
+# The in-progress editorial theme, layered over Academic: themes/editorial/
+# supplies the homepage, Academic supplies every template it does not define.
+# Nothing in config/ selects it, so the deploy is unaffected. Runs on its own
+# port so it can sit beside `make serve` for comparison.
+serve-editorial:
+	open http://localhost:1414/
+	hugo server -D --port 1414 --theme editorial,hugo-academic-theme
+
 # Full Zotero library auto-export. Override if the export moves:
 #   make biblio ZOTERO_BIB=/path/to/export.bib
 ZOTERO_BIB ?= $(HOME)/Projects/gvzbib/gv_zotero.bib
@@ -19,4 +27,4 @@ gv.bib bib:
 biblio: bib
 	uv run scripts/build_biblio.py static/files/gv.bib static/files/bibliography.md
 
-.PHONY: serve bib biblio
+.PHONY: serve serve-editorial bib biblio

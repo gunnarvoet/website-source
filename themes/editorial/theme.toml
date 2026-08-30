@@ -1,0 +1,8 @@
+name = "Editorial"
+license = "MIT"
+description = "Editorial restyle of the site: paper ground, hairline band grid, condensed uppercase display type. Used as a theme component layered over hugo-academic-theme, which supplies every template this one does not define."
+homepage = "https://gunnarvoet.net/"
+min_version = "0.164.0"
+
+[author]
+  name = "Gunnar Voet"

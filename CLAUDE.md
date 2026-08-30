@@ -48,6 +48,36 @@ the root-level `layouts/`, `assets/`, `data/`, and `static/` overrides instead: 
 copy of any theme file at the matching root path wins, color and font themes come from `data/themes/` and
 `data/fonts/`, and extra CSS/JS is registered as `plugins_css` / `plugins_js` in `params.toml`.
 
+## Editorial theme (in progress)
+
+`themes/editorial/` is a second, unfinished look: paper ground, hairline band grid, condensed uppercase
+Archivo. It is a plain tracked directory, not a submodule, and currently defines only `layouts/index.html`
+plus `assets/css/editorial.css`. Run it with:
+
+    make serve-editorial     # hugo server -D --port 1414 --theme editorial,hugo-academic-theme
+
+It is a **theme component, not a replacement**. Hugo resolves the `--theme` list left to right, so editorial
+supplies the homepage and Academic supplies every template editorial does not define; project pages, posts and
+publication pages still render in the Academic look. Migrate a page type by adding its template under
+`themes/editorial/layouts/`.
+
+Nothing in `config/` selects it. `config/_default/config.toml` still says `theme = "hugo-academic-theme"`, so
+`make serve`, a bare `hugo`, and the GitHub deploy all build the Academic site untouched. Keep it that way
+until the theme is finished.
+
+Do **not** develop this theme from the root-level `layouts/` or `assets/`. The project root wins over every
+theme in Hugo's lookup order, so a homepage layout placed there is not optional, it is the homepage, and it
+would deploy on the next push. That is why these files live under `themes/`.
+
+The `--theme` flag can only swap templates, not configuration. When editorial needs its own `menus.toml` or
+different `params.toml` values, move the switch to a config environment (`config/editorial/`, selected with
+`hugo --environment editorial`) rather than trying to bend the flag.
+
+The homepage template reads real site content, so it stays in sync on its own: the author bundle, the
+`project` section, the `software.md` and `data.md` widget bodies, `params.toml` (contact details and the
+coordinates in the station bar), and `static/files/bibliography.md`. It loads Archivo and IBM Plex Mono from
+Google Fonts, which is the one external dependency the Academic site does not have.
+
 ## Configuration layout
 
 `config.toml` at the root is an inert compatibility stub. The real config is `config/_default/`:
