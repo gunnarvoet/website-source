@@ -1,0 +1,42 @@
+{{/* ------------------------------------------------------------------
+     Academic's figure shortcode hands the image to lazysizes (`data-src`
+     plus class="lazyload") and wraps it in a fancybox trigger. The
+     editorial shell loads neither script, so that markup would render a
+     figure with no visible image at all. This override emits a plain
+     figure and lets the browser do the lazy loading.
+
+     Called the same way, so the content files need no edits:
+       {{< figure src="..." title="..." library="true" >}}
+     `library="true"` means static/img/, anything else is a resource of
+     the page bundle.
+     ------------------------------------------------------------------ */}}
+{{- $src := .Get "src" -}}
+{{- $asset := (.Page.Resources.ByType "image").GetMatch $src -}}
+{{- $url := $src -}}
+{{- $w := .Get "width" -}}
+{{- $h := .Get "height" -}}
+{{- if $asset -}}
+  {{/* A page resource can be resized; cap it so a 6000px original is not
+       served at full size. */}}
+  {{- $fit := $asset.Fit "2000x2000" -}}
+  {{- $url = $fit.RelPermalink -}}
+  {{- $w = $fit.Width -}}
+  {{- $h = $fit.Height -}}
+{{- else if .Get "library" -}}
+  {{/* static/img/ is copied verbatim, so the file cannot be resized, but
+       its dimensions can still be read to reserve the right box. */}}
+  {{- $url = printf "img/%s" $src | relURL -}}
+  {{- with images.Config (printf "static/img/%s" $src) -}}
+    {{- $w = .Width -}}{{- $h = .Height -}}
+  {{- end -}}
+{{- end -}}
+{{- $caption := .Get "title" | default (.Get "caption") -}}
+<figure{{ with $caption }} id="figure-{{ anchorize . }}"{{ end }}>
+  {{- if .Get "link" }}<a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>{{ end }}
+  <img src="{{ $url }}" alt="{{ .Get "alt" | default $caption }}" loading="lazy" decoding="async"
+       {{- with $w }} width="{{ . }}"{{ end }}{{ with $h }} height="{{ . }}"{{ end }}>
+  {{- if .Get "link" }}</a>{{ end }}
+  {{- with $caption }}
+  <figcaption>{{ . | markdownify | emojify }}</figcaption>
+  {{- end }}
+</figure>

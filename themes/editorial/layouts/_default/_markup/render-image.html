@@ -1,0 +1,30 @@
+{{/* ------------------------------------------------------------------
+     Markdown images carry no dimensions, so the page reflows as each one
+     arrives. The older cruise posts write their photographs as plain
+     markdown against static/img/, which cannot be turned into a Hugo
+     resource, but its files can still be measured.
+
+     A new hook, not an override: Academic ships only render-link.html
+     here, and this file exists solely in the editorial theme, so the
+     Academic build never sees it.
+     ------------------------------------------------------------------ */}}
+{{- $src := .Destination -}}
+{{- $w := 0 -}}
+{{- $h := 0 -}}
+{{- with .Page.Resources.GetMatch $src -}}
+  {{- $fit := .Fit "2000x2000" -}}
+  {{- $src = $fit.RelPermalink -}}
+  {{- $w = $fit.Width -}}
+  {{- $h = $fit.Height -}}
+{{- else -}}
+  {{- $file := printf "static%s" $src -}}
+  {{- if and (hasPrefix $src "/") (fileExists $file) -}}
+    {{- with images.Config $file -}}
+      {{- $w = .Width -}}
+      {{- $h = .Height -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src | safeURL }}" alt="{{ .Text }}"
+     {{- with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async"
+     {{- if $w }} width="{{ $w }}" height="{{ $h }}"{{ end }}>

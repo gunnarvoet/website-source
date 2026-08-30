@@ -6,15 +6,6 @@
      projects band uses, so the page hands you back where you came from.
      ------------------------------------------------------------------ */}}
 {{ define "main" }}
-{{- $all := sort (where site.RegularPages "Section" "project") "Date" "desc" -}}
-{{- $i := -1 -}}
-{{- range $n, $p := $all }}{{ if eq $p.Permalink $.Permalink }}{{ $i = $n }}{{ end }}{{ end -}}
-{{/* The list runs newest first, so the neighbour above is the later one.
-     `cond` evaluates both arms, so these have to be plain ifs. */}}
-{{- $later := false -}}
-{{- $earlier := false -}}
-{{- if gt $i 0 }}{{ $later = index $all (sub $i 1) }}{{ end -}}
-{{- if and (ge $i 0) (lt $i (sub (len $all) 1)) }}{{ $earlier = index $all (add $i 1) }}{{ end -}}
 
 <article>
 
@@ -47,27 +38,10 @@
 
   {{ partial "related.html" . }}
 
-  {{/* The chronology of field programs, as two cells of the projects grid. */}}
-  {{- if or $later $earlier }}
-  <nav class="grid grid-2" aria-label="Other projects">
-    {{- range slice (dict "p" $earlier "label" "Earlier project") (dict "p" $later "label" "Later project") }}
-      {{- $label := .label }}
-      {{- with .p }}
-      {{/* These cells are wide where the homepage's are tall, so the
-           hover image gets a landscape crop rather than the portrait one. */}}
-      {{- $shot := .Resources.GetMatch "featured.*" }}
-      <a class="cell" href="{{ .RelPermalink }}"
-         {{- with $shot }}{{ $img := .Fill "1200x700 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
-        <span class="cell-label label">{{ $label }}</span>
-        <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
-        <h3>{{ .Title }}</h3>
-        <p class="cell-sum">{{ .Params.summary }}</p>
-        <span class="cell-arrow" aria-hidden="true">&#8594;</span>
-      </a>
-      {{- end }}
-    {{- end }}
-  </nav>
-  {{- end }}
+  {{/* The chronology of field programs. */}}
+  {{ partial "pagenav.html" (dict
+       "page" . "pages" (sort (where site.RegularPages "Section" "project") "Date" "desc")
+       "earlier" "Earlier project" "later" "Later project") }}
 
 </article>
 {{ end }}

@@ -1,0 +1,45 @@
+{{/* ------------------------------------------------------------------
+     Every post, as one ruled ledger. Same pattern as the Writing band on
+     the homepage, which shows only the five most recent.
+
+     Named section/post.html, not post/list.html: Hugo ranks
+     layouts/section/<SECTION>.html above layouts/<SECTION>/list.html,
+     and Academic ships a section/post.html, so a list.html here would
+     never be reached. The same trap is waiting for the publication and
+     talk sections.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $posts := sort .Pages "Date" "desc" -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">Writing</span>
+    {{/* The span of years the list covers, in the manner of the station
+         bar on the homepage: real metadata, not a decorative number. */}}
+    <span class="mono">
+      {{- with $posts }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
+      {{- len $posts }} {{ cond (eq (len $posts) 1) "post" "posts" }}
+    </span>
+  </div>
+  <h1 class="display page-title">{{ .Title | default "Writing" }}</h1>
+  {{- with .Content }}
+  <div class="page-kicker">{{ . }}</div>
+  {{- end }}
+</header>
+
+<section class="band">
+  <div class="ledger">
+    {{- range $posts }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 Jan 02" }}</time>
+      </span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with (or .Params.summary .Params.subtitle) }}<span class="where">{{ . }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{ end }}

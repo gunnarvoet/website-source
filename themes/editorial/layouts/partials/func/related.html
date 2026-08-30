@@ -2,11 +2,12 @@
      Returns the pages related to the given page, as a dict of slices
      keyed by section: {posts, publications, talks}.
 
-     Two real links exist in the content and both are used. Posts name
-     their project outright in `projects`, matching the bundle folder
-     name; and projects, publications and posts all share `tags`. The
-     union of the two is deduplicated by Hugo's `union`, then the page
-     itself is dropped.
+     Two real links exist in the content and both are read, in both
+     directions. Posts name their project outright in `projects`,
+     matching the bundle folder name, so a project finds its posts and a
+     post finds its project; and projects, publications and posts all
+     share `tags`. The union is deduplicated by Hugo's `union`, then the
+     page itself is dropped.
      ------------------------------------------------------------------ */}}
 {{- $page := . -}}
 {{- $found := slice -}}
@@ -16,8 +17,12 @@
 {{- with $page.File -}}
   {{- $found = $found | union (where site.RegularPages "Params.projects" "intersect" (slice .ContentBaseName)) -}}
 {{- end -}}
+{{- with $page.Params.projects -}}
+  {{- $found = $found | union (where (where site.RegularPages "Section" "project") "File.ContentBaseName" "in" .) -}}
+{{- end -}}
 {{- $found = where $found "Permalink" "!=" $page.Permalink -}}
 {{- return dict
       "posts"        (sort (where $found "Section" "post") "Date" "desc")
       "publications" (sort (where $found "Section" "publication") "Date" "desc")
-      "talks"        (sort (where $found "Section" "talk") "Date" "desc") -}}
+      "talks"        (sort (where $found "Section" "talk") "Date" "desc")
+      "projects"     (sort (where $found "Section" "project") "Date" "desc") -}}

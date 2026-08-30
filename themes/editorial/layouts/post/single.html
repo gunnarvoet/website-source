@@ -1,0 +1,62 @@
+{{/* ------------------------------------------------------------------
+     A post: a cruise report, a note on a tool, an outreach piece.
+
+     The foot names the field program the post came from, when it names
+     one in `projects` or shares its tag, and then hands you the posts on
+     either side of it in time.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $rel := partial "func/related.html" . -}}
+
+<article>
+
+  <header class="page-head band">
+    <div class="band-head">
+      <span class="label eyebrow">
+        Writing
+        {{- range $tag := .Params.tags }}
+          {{- with site.GetPage (printf "/tags/%s" (urlize $tag)) }} &middot; <a href="{{ .RelPermalink }}">{{ replace $tag "-" " " }}</a>{{ end }}
+        {{- end }}
+      </span>
+      <span class="mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 Jan 02" }}</time>
+      </span>
+    </div>
+    <h1 class="display page-title">{{ .Title }}</h1>
+    {{- with .Params.subtitle }}
+    <p class="page-kicker">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{ partial "plate.html" . }}
+
+  {{- with partial "func/content.html" . }}
+  <section class="band">
+    <div class="longform">{{ . | safeHTML }}</div>
+  </section>
+  {{- end }}
+
+  {{/* The field program this post came from. A note about a tool has
+       none, and simply skips the band. */}}
+  {{- with $rel.projects }}
+  <div class="grid grid-2">
+    {{- range . }}
+    {{- $shot := .Resources.GetMatch "featured.*" }}
+    <a class="cell" href="{{ .RelPermalink }}"
+       {{- with $shot }}{{ $img := .Fill "1200x700 Center" }} style="--shot:url('{{ $img.RelPermalink }}')"{{ end }}>
+      <span class="cell-label label">Project</span>
+      <span class="cell-year mono">{{ .Date.Format "2006" }}</span>
+      <h3>{{ .Title }}</h3>
+      <p class="cell-sum">{{ .Params.summary }}</p>
+      <span class="cell-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  {{ partial "pagenav.html" (dict
+       "page" . "pages" (sort (where site.RegularPages "Section" "post") "Date" "desc")
+       "earlier" "Earlier post" "later" "Later post") }}
+
+</article>
+{{ end }}
