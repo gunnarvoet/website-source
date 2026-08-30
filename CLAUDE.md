@@ -75,8 +75,13 @@ different `params.toml` values, move the switch to a config environment (`config
 
 The homepage template reads real site content, so it stays in sync on its own: the author bundle, the
 `project` section, the `software.md` and `data.md` widget bodies, `params.toml` (contact details and the
-coordinates in the station bar), and `static/files/bibliography.md`. It loads Archivo and IBM Plex Mono from
-Google Fonts, which is the one external dependency the Academic site does not have.
+coordinates in the station bar), and `static/files/bibliography.md`.
+
+Archivo and IBM Plex Mono are self-hosted from `themes/editorial/static/fonts/`, so the theme makes no request
+to Google Fonts. `themes/editorial/fetch-fonts.sh` refreshes those files from the Google Fonts CSS API, keeping
+the latin and latin-ext subsets. The matching `@font-face` rules are hand-maintained at the top of
+`editorial.css` and have to be edited alongside it if the axes or weights change. Both families are OFL 1.1;
+`static/fonts/OFL.txt` carries the license.
 
 ## Configuration layout
 

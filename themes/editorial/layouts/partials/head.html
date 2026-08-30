@@ -14,8 +14,14 @@
   <title>{{ $title }}</title>
   <meta name="description" content="{{ $desc }}">
   <link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  {{/* Archivo and IBM Plex Mono are self-hosted from the theme's own
+       static/fonts/; the @font-face rules are in editorial.css. Preload the
+       two latin cuts that every page sets type in, so the width axis is in
+       hand before first paint. The latin-ext cuts and the mono 500 weight
+       are left to load on demand. */}}
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="{{ "fonts/archivo-latin.woff2" | relURL }}">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="{{ "fonts/ibm-plex-mono-400-latin.woff2" | relURL }}">
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 </head>
