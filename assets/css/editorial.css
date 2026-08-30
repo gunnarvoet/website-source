@@ -67,7 +67,7 @@ img { display: block; max-width: 100%; }
 .display {                    /* the condensed voice of the page */
   margin: 0;
   font-weight: 900;
-  font-variation-settings: "wdth" 66, "wght" 900;
+  font-variation-settings: "wdth" 70, "wght" 900;
   text-transform: uppercase;
   letter-spacing: -.035em;
   line-height: .82;
@@ -453,7 +453,7 @@ a.row:hover { padding-left: 12px; }
   margin: 0;
   font-size: clamp(38px, 5vw, 76px);
   font-weight: 900;
-  font-variation-settings: "wdth" 66, "wght" 900;
+  font-variation-settings: "wdth" 70, "wght" 900;
   text-transform: uppercase;
   letter-spacing: -.04em;
   line-height: .84;
