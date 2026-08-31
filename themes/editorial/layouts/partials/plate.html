@@ -3,10 +3,18 @@
 
      Academic's `image.preview_only` means the picture is a listing
      thumbnail and does not belong on the page itself, so honour it and
-     render nothing. The image is never scaled past its own pixels: the
-     figures here run from a 972px schematic to a 6585px photograph, and
-     stretching the narrow ones across a wide viewport would soften the
-     very detail they exist to show.
+     render nothing.
+
+     The plate fills the band. Several of the cruise headers are narrow
+     crops (Palau is 1196px, T-TIDE 800px) and letting the browser
+     upscale a wide ocean photograph costs nothing visible, whereas
+     capping them at their own pixels leaves a page-wide band with
+     paper showing down both sides.
+
+     Below the threshold the picture is not a band image at all but an
+     illustration that happens to sit in `featured.*` (the conda post's
+     XKCD comic is 492px of line art, which pixelates the moment it is
+     stretched), so those stay at native size, centered on the paper.
      ------------------------------------------------------------------ */}}
 {{- $shot := .Resources.GetMatch "featured.*" -}}
 {{- $meta := .Params.image | default dict -}}
@@ -15,7 +23,7 @@
   {{- if gt $shot.Width 2400 }}{{ $img = $shot.Resize "2400x" }}{{ end -}}
 <figure class="plate">
   <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
-       style="max-width:{{ $img.Width }}px" alt="{{ .Title }}">
+       {{ if lt $img.Width 700 }}style="max-width:{{ $img.Width }}px" {{ end }}alt="{{ .Title }}">
   {{- with $meta.caption }}
   <figcaption class="plate-cap">{{ . | markdownify }}</figcaption>
   {{- end }}

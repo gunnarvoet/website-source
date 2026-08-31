@@ -682,9 +682,9 @@ a.row:hover { padding-left: 12px; }
 
 /* --- plates -------------------------------------------------
    Figures that belong to the page rather than to a paragraph:
-   the featured image of a project or post. Full-bleed band, but
-   the image is never scaled past its own pixels, so a narrow
-   schematic sits centered on the paper instead of going soft.
+   the featured image of a project or post. Full-bleed band. Only
+   an image too small to have been a band picture keeps a native
+   max-width from plate.html and sits centered on the paper.
    ----------------------------------------------------------- */
 
 .plate {
