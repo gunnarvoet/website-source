@@ -12,7 +12,12 @@
 
 <header class="page-head band" style="border-bottom:0; padding-bottom:34px">
   <div class="band-head">
-    <span class="label eyebrow">Programs</span>
+    {{/* Archive, the same eyebrow /post/ carries, because the two pages do
+         the same job: the whole set behind a homepage band that shows only
+         part of it. It also avoids naming the set, which the homepage band
+         is careful not to do, since it holds field programs and other kinds
+         of project alike. */}}
+    <span class="label eyebrow">Archive</span>
     <span class="mono">
       {{- with $projects }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
       {{- len $projects }}
