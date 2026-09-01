@@ -98,9 +98,17 @@ Two lookup traps cost time; both are commented in the files:
 
 Shared partials: `plate.html` (a page's featured image as a full-bleed band, honouring Academic's
 `image.preview_only`), `pagenav.html` (the neighbouring pages as cells of the projects grid),
-`related.html` and `pagegroups.html` (bands built from real links in the content), and under `func/`, partials
-that return values rather than markup: `author.html`, `content.html`, `math.html`, `related.html`,
-`term-name.html`.
+`related.html` and `pagegroups.html` (bands built from real links in the content), `gridfill.html`, and under
+`func/`, partials that return values rather than markup: `author.html`, `content.html`, `math.html`,
+`related.html`, `term-name.html`.
+
+The hairline grid closes itself. A row's rule is drawn as `border-top` on the cells and the grid's own
+`border-bottom` closes the last one, so a rule is never only as wide as the cells that happen to be in a row.
+Because the cells of a partial last row would still leave the rule above it short, `gridfill.html` emits blank
+cells to square that row off; it emits one set for the four-column layout and one for the two-column one, and
+the CSS shows whichever the current width needs. Where a band or another grid runs straight into a grid, the
+earlier element's `border-bottom` is zeroed (`:has(+ .grid)`), since the grid's first row already draws a rule
+in that spot and the two would stack into a 2px seam.
 
 `shortcodes/figure.html` overrides Academic's. Academic's hands the image to lazysizes as `data-src` with
 `class="lazyload"` and wraps it in a fancybox trigger, and the editorial shell loads neither script, so every

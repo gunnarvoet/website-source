@@ -70,7 +70,13 @@
     <div class="band" style="border-bottom:0; padding-bottom:0">
       <div class="band-head">
         <h2>Projects</h2>
-        <span class="mono">{{ len $projects }} field programs</span>
+        {{/* The span of years the band covers and the count, both read
+             from the bundles. No noun: the section holds field programs
+             and other kinds of project alike. */}}
+        <span class="mono">
+          {{- with $projects }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
+          {{- len $projects }}
+        </span>
       </div>
     </div>
     <div class="grid">
@@ -86,6 +92,7 @@
         <span class="cell-arrow" aria-hidden="true">&#8594;</span>
       </a>
       {{ end }}
+      {{ partial "gridfill.html" (len $projects) }}
     </div>
   </section>
 

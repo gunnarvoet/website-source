@@ -1,0 +1,18 @@
+{{/* ------------------------------------------------------------------
+     Blank cells that fill out a last row which is not full, so the rule
+     above that row runs the whole width of the band rather than
+     stopping at the edge of the last real cell. Takes the number of
+     cells in the grid.
+
+     The count of blanks depends on how many columns the grid has, which
+     is a breakpoint decision, so both counts are emitted and the CSS
+     shows the set that belongs to the current width (.f4 above 1100px,
+     .f2 below it, neither in the single column below 620px). They carry
+     no right border: three of them in a row should read as one open
+     block, not as ruled blanks.
+     ------------------------------------------------------------------ */}}
+{{- $n := . -}}
+{{- $f4 := mod (sub 4 (mod $n 4)) 4 -}}
+{{- $f2 := mod (sub 2 (mod $n 2)) 2 -}}
+{{- if gt $f4 0 }}{{ range seq $f4 }}<span class="grid-fill f4" aria-hidden="true"></span>{{ end }}{{ end }}
+{{- if gt $f2 0 }}{{ range seq $f2 }}<span class="grid-fill f2" aria-hidden="true"></span>{{ end }}{{ end }}

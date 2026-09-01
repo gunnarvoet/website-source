@@ -1,5 +1,5 @@
 {{/* ------------------------------------------------------------------
-     Every field program, in the same grid the homepage projects band
+     Every project, in the same grid the homepage projects band
      uses. Hugo has no template of its own for this section in Academic,
      so without this file the editorial shell would wrap Academic's
      generic list and render an empty frame.
@@ -12,7 +12,7 @@
 
 <header class="page-head band" style="border-bottom:0; padding-bottom:34px">
   <div class="band-head">
-    <span class="label eyebrow">Field programs</span>
+    <span class="label eyebrow">Programs</span>
     <span class="mono">
       {{- with $projects }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
       {{- len $projects }}
@@ -32,5 +32,6 @@
     <span class="cell-arrow" aria-hidden="true">&#8594;</span>
   </a>
   {{- end }}
+  {{ partial "gridfill.html" (len $projects) }}
 </div>
 {{ end }}

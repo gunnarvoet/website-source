@@ -160,6 +160,17 @@ img { display: block; max-width: 100%; }
   padding: 62px var(--gutter);
 }
 
+/* A band that runs straight into a grid must not draw its own bottom
+   rule. The grid's first row of cells draws one in the same place, and
+   the two hairlines stack into a 2px seam. This is the rule the project
+   and homepage templates were zeroing by hand with an inline style. */
+.band:has(+ .grid) { border-bottom: 0; }
+
+/* Same seam where two grids meet, which is a post that names a project
+   and then the neighbouring posts: the second grid's first row draws
+   the rule between them. */
+.grid:has(+ .grid) { border-bottom: 0; }
+
 .band-head {
   display: flex;
   align-items: baseline;
@@ -338,10 +349,16 @@ img { display: block; max-width: 100%; }
    or focus. The grid is the page's one loud gesture.
    ----------------------------------------------------------- */
 
+/* Row rules are drawn by the cells themselves, as a border-top, so a
+   row that is not full still gets a rule across its whole width. The
+   grid closes itself with the bottom rule for the same reason: with
+   nine projects in four columns the last row holds one cell, and a
+   border-bottom on the cell would stop the rule a quarter of the way
+   across and leave the band hanging open. */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .cell {
@@ -352,7 +369,7 @@ img { display: block; max-width: 100%; }
   min-height: 300px;
   padding: 26px var(--gutter) 24px;
   border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
   transition: background-color .18s ease, color .18s ease;
 }
 
@@ -854,6 +871,11 @@ a.row:hover { padding-left: 12px; }
    That cell takes the whole width rather than leaving a ruled blank. */
 .grid-2 .cell:only-child { grid-column: 1 / -1; border-right: 0; }
 
+/* The blanks partials/gridfill.html emits to square off a last row that
+   is not full. They draw that row's rule and nothing else. */
+.grid-fill { border-top: 1px solid var(--line); }
+.grid-fill.f2 { display: none; }
+
 .cell-label { display: block; margin-bottom: 14px; color: var(--muted); }
 .cell:hover .cell-label, .cell:focus-visible .cell-label { color: rgba(242,240,234,.72); }
 
@@ -863,6 +885,8 @@ a.row:hover { padding-left: 12px; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .cell:nth-child(4n) { border-right: 1px solid var(--line); }
   .cell:nth-child(2n) { border-right: 0; }
+  .grid-fill.f4 { display: none; }
+  .grid-fill.f2 { display: block; }
 }
 
 @media (max-width: 900px) {
@@ -916,6 +940,8 @@ a.row:hover { padding-left: 12px; }
 
 @media (max-width: 620px) {
   .grid { grid-template-columns: 1fr; }
+  /* One column: every row is full, so neither set of blanks is needed. */
+  .grid-fill.f4, .grid-fill.f2 { display: none; }
   .cell { border-right: 0 !important; min-height: 0; }
   .hero h1 { font-size: clamp(46px, 14vw, 80px); }
 }
