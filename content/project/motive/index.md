@@ -1,12 +1,12 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "Mixing Below Tropical Instability Waves"
+title: "Mixing Below Tropical Instability Waves - MOTIVE"
 summary: "Evaluating mixing mechanisms and associated turbulent heat fluxes below tropical instability waves near the equator."
 authors: []
 tags: [motive]
 categories: []
-date: "2022-09-12"
+date: "2024-09-01"
 
 # Optional external URL for project (replaces project detail page).
 external_link: ""
