@@ -282,6 +282,13 @@ img { display: block; max-width: 100%; }
   max-width: 12ch;
 }
 
+/* A two-line headline of about twenty characters per line. The type
+   drops to roughly 70% of the slab size so each line still fits. */
+.hero h1.hero-wide {
+  font-size: clamp(44px, 8vw, 132px);
+  max-width: 22ch;
+}
+
 .hero-kicker {
   margin-top: 26px;
   max-width: 66ch;
