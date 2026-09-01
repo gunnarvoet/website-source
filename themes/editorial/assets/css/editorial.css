@@ -727,6 +727,12 @@ a.row:hover { padding-left: 12px; }
 .longform > figure,
 .longform > p:has(> img:only-child) { max-width: none; }
 
+/* Running to the band edge suits a photograph. A plot does not: its own
+   axis labels and legend are sized for a figure a few inches across, so
+   at band width they read as oversized furniture. `narrow="true"` on the
+   figure shortcode pulls one back into the reading measure. */
+.longform > figure.narrow { max-width: 66ch; }
+
 .longform > :first-child { margin-top: 0; }
 .longform > :last-child  { margin-bottom: 0; }
 

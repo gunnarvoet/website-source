@@ -9,6 +9,14 @@
        {{< figure src="..." title="..." library="true" >}}
      `library="true"` means static/img/, anything else is a resource of
      the page bundle.
+
+     `narrow="true"` is the one addition Academic has no equivalent for.
+     A figure runs the full band width by default, which is what a
+     photograph wants; a plot carries labels and a legend drawn for a
+     figure a few inches across, and those turn into oversized furniture
+     at band width. The flag keeps such a figure inside the reading
+     measure. Academic's shortcode ignores unknown parameters, so a
+     content file carrying it still renders there.
      ------------------------------------------------------------------ */}}
 {{- $src := .Get "src" -}}
 {{- $asset := (.Page.Resources.ByType "image").GetMatch $src -}}
@@ -31,7 +39,7 @@
   {{- end -}}
 {{- end -}}
 {{- $caption := .Get "title" | default (.Get "caption") -}}
-<figure{{ with $caption }} id="figure-{{ anchorize . }}"{{ end }}>
+<figure{{ with $caption }} id="figure-{{ anchorize . }}"{{ end }}{{ if eq (.Get "narrow") "true" }} class="narrow"{{ end }}>
   {{- if .Get "link" }}<a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>{{ end }}
   <img src="{{ $url }}" alt="{{ .Get "alt" | default $caption }}" loading="lazy" decoding="async"
        {{- with $w }} width="{{ . }}"{{ end }}{{ with $h }} height="{{ . }}"{{ end }}>

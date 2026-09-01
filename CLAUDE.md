@@ -106,6 +106,12 @@ that return values rather than markup: `author.html`, `content.html`, `math.html
 `class="lazyload"` and wraps it in a fancybox trigger, and the editorial shell loads neither script, so every
 figure in the cruise posts would render as an empty box.
 
+It also takes `narrow="true"`, which Academic has no equivalent for. `.longform > figure` sets `max-width: none`
+so a figure runs past the 66ch text measure to the band edge, which is what a photograph wants. A plot carries
+axis labels and a legend drawn for a figure a few inches across, and at band width those read as oversized
+furniture, so `narrow="true"` adds `class="narrow"` and keeps it inside the measure (the Madeira station map).
+Academic ignores the unknown parameter, so a content file carrying it still renders in both builds.
+
 Math is typeset at build time. Academic pulls MathJax off a CDN; `func/math.html` hands the TeX to Hugo's
 built-in KaTeX (`transform.ToMath`) and emits MathML instead, so there is no script and no external request.
 The site's goldmark has no passthrough extension and `config/` is off limits to this theme, so the delimiters
