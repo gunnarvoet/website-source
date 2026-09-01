@@ -291,7 +291,9 @@ img { display: block; max-width: 100%; }
 
 .hero-kicker {
   margin-top: 26px;
-  max-width: 66ch;
+  /* Uppercase with tracking runs wider than the ch unit suggests; 66ch
+     wrapped the first line one word early. */
+  max-width: 92ch;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.25;
