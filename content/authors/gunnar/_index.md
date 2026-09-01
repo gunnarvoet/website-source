@@ -22,9 +22,9 @@ bio: My research focus are small-scale physical oceanic processes and their role
 
 interests:
 - Flow-Topography Interaction
+- Internal Waves
 - Overflows and Hydraulics
 - Ocean Turbulence and Mixing
-- Internal Waves
 - Global Overturning Circulation
 
 education:
