@@ -12,6 +12,10 @@
 {{- $data     := $home.Resources.GetMatch "data.md" -}}
 {{- $expPage  := $home.Resources.GetMatch "experience.md" -}}
 {{- $projects := sort (where site.RegularPages "Section" "project") "Date" "desc" -}}
+{{/* The band shows at most twelve, which is three full rows of the four-column
+     grid and six of the two-column one, so a cap never leaves a partial row.
+     The rest are on /project/, which the band head links to. */}}
+{{- $shown    := first 12 $projects -}}
 {{- $allPosts := sort (where site.RegularPages "Section" "post") "Date" "desc" -}}
 {{- $posts    := first 5 $allPosts -}}
 {{/* The bibliography is generated markup (scripts/build_biblio.py). Give each
@@ -71,17 +75,20 @@
     <div class="band" style="border-bottom:0; padding-bottom:0">
       <div class="band-head">
         <h2>Projects</h2>
-        {{/* The span of years the band covers and the count, both read
-             from the bundles. No noun: the section holds field programs
-             and other kinds of project alike. */}}
+        {{/* The span of years and the count, both read from the bundles and
+             both describing the whole set, which is where the link goes.
+             No noun: the section holds field programs and other kinds of
+             project alike. */}}
         <span class="mono">
           {{- with $projects }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
-          {{- len $projects }}
+          {{- with site.GetPage "/project" }}
+          <a href="{{ .RelPermalink }}">all {{ len $projects }} &#8594;</a>
+          {{- else }}{{ len $projects }}{{ end }}
         </span>
       </div>
     </div>
     <div class="grid">
-      {{ range $projects }}
+      {{ range $shown }}
       {{/* Each bundle carries its own featured.jpg/png; hand it to the
            cell as a custom property for the hover state. */}}
       {{ $shot := .Resources.GetMatch "featured.*" }}
@@ -93,7 +100,7 @@
         <span class="cell-arrow" aria-hidden="true">&#8594;</span>
       </a>
       {{ end }}
-      {{ partial "gridfill.html" (len $projects) }}
+      {{ partial "gridfill.html" (len $shown) }}
     </div>
   </section>
 
