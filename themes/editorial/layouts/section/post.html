@@ -25,7 +25,12 @@
       {{- with site.GetPage "/tags" }} &middot; <a href="{{ .RelPermalink }}">topics &#8594;</a>{{ end }}
     </span>
   </div>
-  <h1 class="display page-title">{{ .Title | default "Writing" }}</h1>
+  {{/* Written here, not read from content/post/_index.md. That file titles
+       the section "Posts", which is what the Academic nav, its Recent Posts
+       widget and its "See all posts" link call it. This theme calls it
+       Writing, in the nav and in the eyebrow above, and this is the third
+       place that name is set. The browser tab still reads "Posts". */}}
+  <h1 class="display page-title">Writing</h1>
   {{- with .Content }}
   <div class="page-kicker">{{ . }}</div>
   {{- end }}
