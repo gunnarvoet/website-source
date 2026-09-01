@@ -14,4 +14,4 @@ header:
   image: "types_of_scientific_paper.png"
 ---
 
-This page lists only a selected number of publications. For a full list please download my [cv](/files/cv.pdf) or see my records on [orcid](https://orcid.org/0000-0003-1975-186X) or [open alex](https://openalex.org/works?page=1&filter=authorships.author.id%3Aa5041502683&sort=publication_year%3Adesc).
+This page lists only a selected number of publications. For a full list please download my [cv](/files/cv.pdf) or see my records on [orcid](https://orcid.org/0000-0003-1975-186X) or [open alex](https://openalex.org/authors/a5041502683).

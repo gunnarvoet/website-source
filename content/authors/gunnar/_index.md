@@ -49,7 +49,7 @@ social:
 #   icon_pack: ai
 - icon: book-open
   icon_pack: fas
-  link: https://openalex.org/works?page=1&filter=authorships.author.id%3Aa5041502683&sort=publication_year%3Adesc
+  link: https://openalex.org/authors/a5041502683
 - icon: github
   icon_pack: fab
   link: https://github.com/gunnarvoet
@@ -65,9 +65,9 @@ social:
 #- icon: osf
 #  icon_pack: ai
 #  link: https://osf.io/hvdn7/
-- icon: mastodon
-  icon_pack: fab
-  link: https://fediscience.org/@gvoet
+#- icon: mastodon
+#  icon_pack: fab
+#  link: https://fediscience.org/@gvoet
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  
 - icon: cv
