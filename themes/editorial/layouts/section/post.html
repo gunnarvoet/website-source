@@ -19,6 +19,10 @@
     <span class="mono">
       {{- with $posts }}{{ (index . (sub (len .) 1)).Date.Format "2006" }}&ndash;{{ (index . 0).Date.Format "2006" }} &middot; {{ end }}
       {{- len $posts }} {{ cond (eq (len $posts) 1) "post" "posts" }}
+      {{/* The tag index is otherwise unreachable: individual term pages are
+           linked from every post and project, but nothing points at the
+           list of them. This is where someone browsing writing looks. */}}
+      {{- with site.GetPage "/tags" }} &middot; <a href="{{ .RelPermalink }}">topics &#8594;</a>{{ end }}
     </span>
   </div>
   <h1 class="display page-title">{{ .Title | default "Writing" }}</h1>

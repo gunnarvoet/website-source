@@ -189,6 +189,12 @@ img { display: block; max-width: 100%; }
   line-height: .9;
 }
 
+/* A band head's right-hand slot usually holds a mono counter, and where it
+   holds a link instead (gv.bib, the post archive, the tag index) nothing
+   distinguishes the two: the base rule strips anchors of color and
+   underline. Give it a hover. */
+.band-head a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
 /* --- header ------------------------------------------------ */
 
 .site-header {
@@ -882,6 +888,10 @@ a.row:hover { padding-left: 12px; }
 /* --- responsive --------------------------------------------- */
 
 @media (max-width: 1100px) {
+  /* Seven nav items no longer clear the brand in the band just above the
+     burger breakpoint, and the brand is what gives: its role wraps to a
+     second line. Close the nav gap instead. */
+  .nav { gap: 26px; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .cell:nth-child(4n) { border-right: 1px solid var(--line); }
   .cell:nth-child(2n) { border-right: 0; }

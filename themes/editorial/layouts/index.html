@@ -12,7 +12,8 @@
 {{- $data     := $home.Resources.GetMatch "data.md" -}}
 {{- $expPage  := $home.Resources.GetMatch "experience.md" -}}
 {{- $projects := sort (where site.RegularPages "Section" "project") "Date" "desc" -}}
-{{- $posts    := first 5 (sort (where site.RegularPages "Section" "post") "Date" "desc") -}}
+{{- $allPosts := sort (where site.RegularPages "Section" "post") "Date" "desc" -}}
+{{- $posts    := first 5 $allPosts -}}
 {{/* The bibliography is generated markup (scripts/build_biblio.py). Give each
      year heading an id so the sticky rail can jump to it, then collect the
      years for that rail. */}}
@@ -129,7 +130,17 @@
   {{/* Writing */}}
   {{ with $posts }}
   <section class="band" id="writing">
-    <div class="band-head"><h2>Writing</h2><span class="mono">{{ len . }} recent</span></div>
+    <div class="band-head">
+      <h2>Writing</h2>
+      {{/* The counter is also the way to the archive, the slot the
+           Publications band gives to gv.bib. It counts every post, not
+           the five listed below. */}}
+      {{- with site.GetPage "/post" }}
+      <a class="mono" href="{{ .RelPermalink }}">all {{ len $allPosts }} posts &#8594;</a>
+      {{- else }}
+      <span class="mono">{{ len $posts }} recent</span>
+      {{- end }}
+    </div>
     <div class="ledger">
       {{ range . }}
       <a class="row" href="{{ .RelPermalink }}">
