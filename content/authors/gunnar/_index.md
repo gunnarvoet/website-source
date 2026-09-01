@@ -84,4 +84,4 @@ email: ""
 #- Visitors
 ---
 
-I am a physical oceanographer at the [Scripps Institution of Oceanography](https://scripps.ucsd.edu/). I study flow-topography interaction, internal waves and turbulent mixing, and their impacts on the large-scale ocean circulation, primarily through shipboard and moored in-situ observations. I am a member of [Multiscale Ocean Dynamics](https://www.mod.ucsd.edu) at Scripps.
+I am a physical oceanographer at the [Scripps Institution of Oceanography](https://scripps.ucsd.edu/). Using shipboard and moored in-situ observations, I study flow-topography interaction, internal waves, and turbulent mixing. Part of this work asks how these small-scale processes affect the large-scale ocean circulation. I am a member of [Multiscale Ocean Dynamics](https://www.mod.ucsd.edu) at Scripps.
