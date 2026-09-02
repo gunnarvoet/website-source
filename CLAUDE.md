@@ -99,8 +99,8 @@ Two lookup traps cost time; both are commented in the files:
 Shared partials: `plate.html` (a page's featured image as a full-bleed band, honouring Academic's
 `image.preview_only`), `pagenav.html` (the neighbouring pages as cells of the projects grid),
 `related.html` and `pagegroups.html` (bands built from real links in the content), `gridfill.html`, and under
-`func/`, partials that return values rather than markup: `author.html`, `content.html`, `math.html`,
-`related.html`, `term-name.html`.
+`func/`, partials that return values rather than markup: `author.html`, `content.html`, `highlight.html`,
+`math.html`, `related.html`, `term-name.html`.
 
 The hairline grid closes itself. A row's rule is drawn as `border-top` on the cells and the grid's own
 `border-bottom` closes the last one, so a rule is never only as wide as the cells that happen to be in a row.
@@ -125,6 +125,22 @@ built-in KaTeX (`transform.ToMath`) and emits MathML instead, so there is no scr
 The site's goldmark has no passthrough extension and `config/` is off limits to this theme, so the delimiters
 are found in the rendered HTML rather than during markdown parsing, and only pages with `math: true` are
 scanned.
+
+Code is highlighted at build time, by the same route. `codeFences = false` in `config/`, because Academic
+colors code with its own client-side highlight.js, so goldmark emits every fence as a bare
+`<pre><code class="language-X">` and the editorial shell loads nothing that would color it. `func/highlight.html`
+finds those blocks in the rendered HTML and re-emits them through Chroma (`transform.Highlight`) with
+`noClasses=false`, so the palette lives in `editorial.css` under `.chroma` and not in the markup. Fences with no
+language go through too, with an empty lang: that is what gives every block the same `div.highlight` wrapper, and
+a block's 66ch measure is resolved against that wrapper's font, so it lands on the prose measure. A bare `<pre>`
+would be measured in its own mono face and come out a third narrower.
+
+`func/content.html` chains the two, math first. Highlighting breaks a block's text up into Chroma's spans, which
+a `$...$` search run afterwards could match across.
+
+The syntax palette is in `:root` as `--code-*`, drawn from the site colors: keywords take `--abyss`, comments
+take `--muted`, and the remaining hues are warm earths for the warm paper. Everything Chroma does not classify
+stays `--ink`, which is what keeps a shell block reading as plain text. All of them clear 4.5:1 on `--code-bg`.
 
 ### Content coupling
 

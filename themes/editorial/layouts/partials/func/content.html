@@ -1,2 +1,8 @@
-{{/* A page's rendered content, with its TeX typeset. See func/math.html. */}}
-{{- return partial "func/math.html" (dict "html" .Content "enabled" .Params.math) -}}
+{{/* A page's rendered content, with its TeX typeset and its code
+     blocks coloured. See func/math.html and func/highlight.html.
+
+     Math runs first: it searches for $...$ in the markup, and after
+     highlighting a code block's text is broken up by Chroma's spans,
+     which a delimiter search could match across. */}}
+{{- $html := partial "func/math.html" (dict "html" .Content "enabled" .Params.math) -}}
+{{- return partial "func/highlight.html" (dict "html" $html) -}}

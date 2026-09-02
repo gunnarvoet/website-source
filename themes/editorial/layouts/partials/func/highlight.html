@@ -1,0 +1,34 @@
+{{/* ------------------------------------------------------------------
+     Syntax-highlights the fenced code blocks in a fragment of rendered
+     HTML.
+
+     `codeFences = false` in config/_default/config.toml, because
+     Academic highlights with its own client-side highlight.js and the
+     two collide. So goldmark hands every fence through as a bare
+     <pre><code class="language-X">, and the editorial shell loads no
+     script to colour it. config/ belongs to the Academic build and a
+     CDN highlighter would be the theme's only external request, so the
+     blocks are instead found in the rendered HTML and re-emitted
+     through Chroma at build time. Same reasoning as func/math.html.
+
+     `noClasses=false` makes Chroma emit class names instead of inline
+     styles, which keeps the palette with the rest of the theme's
+     colours in editorial.css (the `.chroma` block) and out of the
+     markup of every page.
+
+     A fence with no language goes through as well, with an empty lang
+     that Chroma renders as plain text. That is load-bearing. It gives
+     every block the same wrapper, and a block's width is measured in
+     `ch` against that wrapper's font (see the .highlight rules in
+     editorial.css). A bare <pre> left in place would come out visibly
+     narrower than the paragraph above it.
+
+     Takes and returns a string of HTML.
+     ------------------------------------------------------------------ */}}
+{{- $html := .html -}}
+{{- range $m := findRESubmatch `(?s)<pre><code(?: class="language-([^"]+)")?>(.*?)</code></pre>` $html -}}
+  {{- $code := htmlUnescape (index $m 2) -}}
+  {{- $lang := index $m 1 -}}
+  {{- $html = replace $html (index $m 0) (transform.Highlight $code $lang "noClasses=false") -}}
+{{- end -}}
+{{- return $html -}}

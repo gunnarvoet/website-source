@@ -94,6 +94,23 @@
   --muted:  #55605f;   /* secondary text */
   --abyss:  #0f2b33;   /* deep teal, used once, inverted */
   --gutter: 34px;
+
+  /* Code. The ground is one step below the paper. A panel of its own
+     colour would turn the fourteen shell blocks in the uv post into a
+     stack of cards; one step below reads as quieter paper. The five
+     syntax hues are desaturated enough to sit on that ground. The
+     keyword teal is the site's own --abyss and the rest are warm
+     earths, which is what a warm paper takes. Everything not listed
+     below stays --ink, so a shell block still looks mostly like the
+     plain text it mostly is. */
+  --code-bg:      #eae7de;
+  --code-comment: var(--muted);   /* 5.3:1 on --code-bg; a lighter gray drops under 4.5 */
+  --code-key:     #0f2b33;
+  --code-name:    #2c5c66;
+  --code-string:  #7a5423;
+  --code-number:  #8f4526;
+  --code-var:     #6b4a5f;
+  --code-punct:   #5b6362;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -824,22 +841,111 @@ a.row:hover { padding-left: 12px; }
   color: var(--muted);
 }
 
+/* Inline code sits inside a sentence set in Archivo. Plex Mono runs
+   small beside it at the same nominal size, hence .9em where a mono
+   face usually wants .86em.
+
+   It gets no tinted chip. The paragraph about uv.lock names five files
+   in six lines, and five grounds in one paragraph read as a ransom
+   note. The change of face already marks the token, and leaving the
+   ground alone keeps it as the one thing that means "a block you would
+   type". `word-break` stops a long path from pushing the measure open,
+   since a mono run gives a browser nowhere to break. */
 .longform code {
   font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  font-size: .86em;
+  font-size: .9em;
+  word-break: break-word;
 }
+
+/* --- code blocks --------------------------------------------
+   Coloured at build time by partials/func/highlight.html, which
+   re-emits every fenced block through Chroma with class names. The
+   palette is in :root; the rules below only assign it.
+
+   Chroma wraps its <pre> in <div class="highlight">, so the block's
+   own margin and the 66ch measure land on that wrapper, while the
+   frame and the scroll go on the <pre> inside it. A fence with no
+   language never reaches Chroma and stays a bare <pre>, so both
+   selectors carry the frame.
+   ----------------------------------------------------------- */
+
+/* The block ends where the paragraph above it ends, and gets that for
+   free: `.longform > *` sets a 66ch measure, and the direct child here
+   is Chroma's wrapper, which inherits Archivo, so its `ch` is the same
+   `ch` the prose was measured in. This only holds because every fence
+   goes through Chroma, including the ones with no language on them
+   (see func/highlight.html). A bare <pre> would be measured in its own
+   mono face and come out a third narrower. */
+.longform .highlight { margin: 1.6em 0; }
 
 .longform pre {
   margin: 1.6em 0;
-  padding: 18px 20px;
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  padding: 16px 20px;
   overflow-x: auto;
   border: 1px solid var(--line);
-  background: transparent;
+  background: var(--code-bg);
   font-size: 13.5px;
-  line-height: 1.5;
+  line-height: 1.55;
+  tab-size: 4;
 }
 
-.longform pre code { font-size: inherit; }
+.longform .highlight pre { margin: 0; }
+
+/* Whatever marks inline code has to be undone here, or it would draw
+   a second ground on every line inside the block. */
+.longform pre code {
+  font-size: inherit;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+
+/* Chroma puts a tabindex on the <pre> so a scrolling block can be
+   reached by keyboard. The browser's default ring does not belong on
+   this paper, so the focus is drawn as a rule. */
+.longform pre:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.chroma .c,  .chroma .ch, .chroma .cm, .chroma .c1,
+.chroma .cs { color: var(--code-comment); font-style: italic; }
+.chroma .cp, .chroma .cpf { color: var(--code-comment); }
+
+.chroma .k,  .chroma .kc, .chroma .kd, .chroma .kn,
+.chroma .kp, .chroma .kr { color: var(--code-key); font-weight: 600; }
+.chroma .kt { color: var(--code-name); }
+
+.chroma .nb, .chroma .bp, .chroma .nf, .chroma .fm,
+.chroma .nc, .chroma .ne, .chroma .nn,
+.chroma .nd { color: var(--code-name); }
+.chroma .no { color: var(--code-number); }
+.chroma .na, .chroma .nt { color: var(--code-name); }
+
+.chroma .nv, .chroma .vc, .chroma .vg,
+.chroma .vi, .chroma .vm { color: var(--code-var); }
+
+.chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl,
+.chroma .sd, .chroma .s2, .chroma .sh, .chroma .si, .chroma .sx,
+.chroma .sr, .chroma .s1, .chroma .ss { color: var(--code-string); }
+.chroma .se { color: var(--code-number); }
+
+.chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
+.chroma .mi, .chroma .il, .chroma .mo { color: var(--code-number); }
+
+.chroma .o, .chroma .ow, .chroma .p { color: var(--code-punct); }
+
+.chroma .gd { color: var(--code-number); }
+.chroma .gi { color: var(--code-name); }
+.chroma .ge { font-style: italic; }
+.chroma .gs { font-weight: 600; }
+.chroma .gh, .chroma .gu { color: var(--code-key); font-weight: 600; }
+
+/* An unlexable token is Chroma telling you the fence has the wrong
+   language on it. Say so quietly instead of painting it red. */
+.chroma .err { color: var(--ink); text-decoration: underline wavy var(--code-number); }
 
 .longform table {
   width: 100%;
