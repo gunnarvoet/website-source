@@ -25,6 +25,7 @@
 {{- $biblio  = replaceRE "<h3 class=\"pub-year\">([0-9]{4})</h3>" "<h3 class=\"pub-year\" id=\"y$1\">$1</h3>" $biblio -}}
 {{- $years   := apply (findRE "<h3 class=\"pub-year\" id=\"y[0-9]{4}\">[0-9]{4}</h3>" $biblio) "replaceRE" "^.*>([0-9]{4})</h3>$" "$1" "." -}}
 {{- $addr     := site.Params.address -}}
+{{- $mail     := site.Params.mail_address -}}
 {{- $coords   := site.Params.coordinates -}}
 
   {{/* Hero: a working photograph, not a portrait. One condensed line
@@ -190,12 +191,14 @@
       <dd><a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></dd>
       <dt class="label">Phone</dt>
       <dd class="mono">{{ site.Params.phone }}</dd>
+      <dt class="label">Curriculum vitae</dt>
+      <dd><a href="{{ "files/cv.pdf" | relURL }}">cv.pdf</a></dd>
     </dl>
     <dl>
       <dt class="label">Mail</dt>
-      <dd>{{ $addr.street }}<br>{{ $addr.city }}, {{ $addr.region }} {{ $addr.postcode }}<br>{{ $addr.country }}</dd>
-      <dt class="label">Curriculum vitae</dt>
-      <dd><a href="{{ "files/cv.pdf" | relURL }}">cv.pdf</a></dd>
+      <dd>{{ $mail.street }}<br>{{ $mail.city }}, {{ $mail.region }} {{ $mail.postcode }}<br>{{ $mail.country }}</dd>
+      <dt class="label">Office</dt>
+      <dd>{{ $addr.street }}{{ with site.Params.directions }}<br>{{ . }}{{ end }}<br>{{ $addr.city }}, {{ $addr.region }} {{ $addr.postcode }}</dd>
     </dl>
   </section>
 

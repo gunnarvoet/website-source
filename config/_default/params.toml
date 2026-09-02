@@ -94,6 +94,11 @@ phone = "+1 858-822-6809"
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
 address = {street = "8851 Shellback Way", city = "La Jolla", region = "CA", postcode = "92093", country = "United States", country_code = "US"}
 
+# Campus mail address, distinct from the office address above. Read only by the
+# editorial theme's contact band (themes/editorial/layouts/index.html); the
+# Academic theme's contact widget uses `address` alone.
+mail_address = {street = "9500 Gilman Drive, MC 0213", city = "La Jolla", region = "CA", postcode = "92093", country = "United States", country_code = "US"}
+
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
 coordinates = {latitude = "32.869641", longitude = "-117.250432"}
