@@ -50,7 +50,7 @@
 
 {{- with $posts }}
 <section class="band">
-  <div class="band-head"><h2>Writing</h2><span class="mono">{{ len . }}</span></div>
+  <div class="band-head"><h2>Posts</h2><span class="mono">{{ len . }}</span></div>
   <div class="ledger">
     {{- range . }}
     <a class="row" href="{{ .RelPermalink }}">

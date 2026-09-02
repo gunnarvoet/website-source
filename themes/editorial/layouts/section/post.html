@@ -1,5 +1,5 @@
 {{/* ------------------------------------------------------------------
-     Every post, as one ruled ledger. Same pattern as the Writing band on
+     Every post, as one ruled ledger. Same pattern as the Posts band on
      the homepage, which shows only the five most recent.
 
      Named section/post.html, not post/list.html: Hugo ranks
@@ -13,7 +13,7 @@
 
 <header class="page-head band">
   <div class="band-head">
-    {{/* Archive, not Writing: every page head in this theme pairs a
+    {{/* Archive, not Posts: every page head in this theme pairs a
          categorical eyebrow with a different headline (Papers over
          Publications, Index over Tags), and the
          eyebrow is what says this page is the whole set rather than the
@@ -26,17 +26,16 @@
       {{- len $posts }} {{ cond (eq (len $posts) 1) "post" "posts" }}
       {{/* The tag index is otherwise unreachable: individual term pages are
            linked from every post and project, but nothing points at the
-           list of them. This is where someone browsing writing looks. */}}
+           list of them. This is where someone browsing posts looks. */}}
       {{- with site.GetPage "/tags" }} &middot; <a href="{{ .RelPermalink }}">topics &#8594;</a>{{ end }}
     </span>
   </div>
-  {{/* Written here, not read from content/post/_index.md. That file titles
-       the section "Posts", which is what the Academic nav, its Recent Posts
-       widget and its "See all posts" link call it. This theme calls it
-       Writing, in the nav and in the homepage band that links here, so the
-       word someone arrived on is the word they land on. The browser tab
-       still reads "Posts". */}}
-  <h1 class="display page-title">Writing</h1>
+  {{/* Written here, not read from content/post/_index.md, so the headline
+       is set alongside the nav and the homepage band that link here and
+       the word someone arrived on is the word they land on. The section
+       title in that file happens to be "Posts" too, which is what the
+       browser tab and the Academic build show. */}}
+  <h1 class="display page-title">Posts</h1>
   {{- with .Content }}
   <div class="page-kicker">{{ . }}</div>
   {{- end }}

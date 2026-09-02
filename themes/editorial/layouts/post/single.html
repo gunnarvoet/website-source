@@ -15,7 +15,7 @@
   <header class="page-head band">
     <div class="band-head">
       <span class="label eyebrow">
-        Writing
+        Posts
         {{- range $tag := .Params.tags }}
           {{- with site.GetPage (printf "/tags/%s" (urlize $tag)) }} &middot; <a href="{{ .RelPermalink }}">{{ replace $tag "-" " " }}</a>{{ end }}
         {{- end }}

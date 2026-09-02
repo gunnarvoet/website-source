@@ -6,7 +6,7 @@
      opens with a search box wired to Academic's client-side index, which
      the editorial shell does not load.
 
-     The recent posts are the same ledger the Writing archive uses, on
+     The recent posts are the same ledger the Posts archive uses, on
      the reasoning that someone who followed a stale link to a post is
      most likely looking for a post.
      ------------------------------------------------------------------ */}}
@@ -28,7 +28,7 @@
 {{- with $recent }}
 <section class="band">
   <div class="band-head">
-    <span class="label eyebrow">Recent writing</span>
+    <span class="label eyebrow">Recent posts</span>
     {{- with site.GetPage "/post" }}
     <span class="mono"><a href="{{ .RelPermalink }}">all posts &#8594;</a></span>
     {{- end }}
