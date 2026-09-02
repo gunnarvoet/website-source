@@ -19,8 +19,12 @@ copyright = "&copy; {year} Gunnar Voet"
 ## Advanced options below ##
 ############################
 
-# Name of Academic theme folder in `themes/`.
-theme = "hugo-academic-theme"
+# Themes in `themes/`, resolved left to right. Editorial supplies a template
+# for every page kind the site produces; Academic remains behind it as the
+# fallback, so deleting a template from themes/editorial/layouts/ returns that
+# page type to the Academic look. Academic also still supplies the config this
+# file and params.toml are written against.
+theme = ["editorial", "hugo-academic-theme"]
 
 # Get last modified date for content from Git?
 enableGitInfo = false

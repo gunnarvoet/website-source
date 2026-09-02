@@ -1,15 +1,16 @@
+# The live site. config/_default/config.toml selects the editorial theme with
+# Academic behind it as the fallback, so no --theme flag is needed here.
 serve:
 	open http://localhost:1313/
 	# note: the -D option lets hugo include posts that are marked as draft
 	hugo server -D
 
-# The in-progress editorial theme, layered over Academic: themes/editorial/
-# supplies the homepage, Academic supplies every template it does not define.
-# Nothing in config/ selects it, so the deploy is unaffected. Runs on its own
-# port so it can sit beside `make serve` for comparison.
-serve-editorial:
+# The old Academic look, for comparison. Overriding the config's theme list
+# with a single theme drops editorial out of the lookup entirely. Runs on its
+# own port so it can sit beside `make serve`.
+serve-academic:
 	open http://localhost:1414/
-	hugo server -D --port 1414 --theme editorial,hugo-academic-theme
+	hugo server -D --port 1414 --theme hugo-academic-theme
 
 # Full Zotero library auto-export. Override if the export moves:
 #   make biblio ZOTERO_BIB=/path/to/export.bib
@@ -27,4 +28,4 @@ gv.bib bib:
 biblio: bib
 	uv run scripts/build_biblio.py static/files/gv.bib static/files/bibliography.md
 
-.PHONY: serve serve-editorial bib biblio
+.PHONY: serve serve-academic bib biblio

@@ -11,8 +11,9 @@ Theme docs still live at https://sourcethemes.com/academic/docs/.
 ## Commands
 
 ```
-make serve     # hugo server -D (includes drafts), opens http://localhost:1313/
-make biblio    # regenerate static/files/bibliography.md from static/files/gv.bib via pandoc + CSL
+make serve           # hugo server -D (includes drafts), opens http://localhost:1313/
+make serve-academic  # the old Academic look, on port 1414, for comparison
+make biblio          # regenerate static/files/bibliography.md from static/files/gv.bib via pandoc + CSL
 ```
 
 `make biblio` must run from the repo root; the Makefile addresses `static/files/` by relative path. It needs
@@ -48,30 +49,27 @@ the root-level `layouts/`, `assets/`, `data/`, and `static/` overrides instead: 
 copy of any theme file at the matching root path wins, color and font themes come from `data/themes/` and
 `data/fonts/`, and extra CSS/JS is registered as `plugins_css` / `plugins_js` in `params.toml`.
 
-## Editorial theme (in progress)
+## Editorial theme (live)
 
-`themes/editorial/` is a second look: paper ground, hairline band grid, condensed uppercase Archivo. It is a
-plain tracked directory, not a submodule. Run it with:
+`themes/editorial/` is the site's look as of 2026-09-01: paper ground, hairline band grid, condensed uppercase
+Archivo. It is a plain tracked directory, not a submodule.
 
-    make serve-editorial     # hugo server -D --port 1414 --theme editorial,hugo-academic-theme
+It is a **theme component, not a replacement**. `config/_default/config.toml` says
+`theme = ["editorial", "hugo-academic-theme"]`, and Hugo resolves that list left to right, so editorial supplies
+whatever it defines and Academic supplies the rest. Editorial defines a template for every page kind the site
+produces, so nothing in the deployed build falls back; `make serve`, a bare `hugo` and the GitHub deploy all
+produce the editorial site. Deleting a template from `themes/editorial/layouts/` returns that page type to
+Academic, shell and `academic.css` included, which is the failure mode to watch for after touching layouts:
 
-It is a **theme component, not a replacement**. Hugo resolves the `--theme` list left to right, so editorial
-supplies whatever it defines and Academic supplies the rest. Editorial now defines a template for every page
-kind the site produces, so the whole editorial build renders in the editorial look; Academic is still the
-fallback, and removing a template from `themes/editorial/layouts/` returns that page type to it.
+    hugo --gc --minify --cleanDestinationDir --destination /tmp/check
+    grep -rl 'academic.css' /tmp/check --include='*.html'    # must print nothing
 
-Nothing in `config/` selects it. `config/_default/config.toml` still says `theme = "hugo-academic-theme"`, so
-`make serve`, a bare `hugo`, and the GitHub deploy all build the Academic site untouched. Keep it that way
-until the theme is finished. After any change, verify both: a bare `hugo` must produce the Academic site with
-no editorial markup in it, and `hugo --theme editorial,hugo-academic-theme` must produce the editorial one.
+Academic is still on disk as the fallback, and still supplies the config vocabulary this file and `params.toml`
+are written against. `make serve-academic` builds the old look for comparison.
 
 Do **not** develop this theme from the root-level `layouts/` or `assets/`. The project root wins over every
-theme in Hugo's lookup order, so a homepage layout placed there is not optional, it is the homepage, and it
-would deploy on the next push. That is why these files live under `themes/`.
-
-The `--theme` flag can only swap templates, not configuration. When editorial needs its own `menus.toml` or
-different `params.toml` values, move the switch to a config environment (`config/editorial/`, selected with
-`hugo --environment editorial`) rather than trying to bend the flag.
+theme in Hugo's lookup order, so a homepage layout placed there is not optional, it is the homepage. That is
+why these files live under `themes/`.
 
 ### Layout structure
 
@@ -82,8 +80,8 @@ The shell is `partials/shell/open.html` and `partials/shell/close.html`, with `h
 `--theme` list, so a `_default` one here would be picked for every page, including any that editorial has no
 template for; those would pair the editorial shell with an Academic content template that defines no `main`
 block and render as an empty frame. Instead each page kind gets its own three-line base template
-(`index-baseof.html`, `project/baseof.html`, `post/baseof.html`, and so on) that calls the two shell partials
-around a `{{ block "main" }}`. A base template cannot be shared through a partial, because `{{ block }}` is
+(`index-baseof.html`, `404-baseof.html`, `project/baseof.html`, `post/baseof.html`, and so on) that calls the
+two shell partials around a `{{ block "main" }}`. A base template cannot be shared through a partial, because `{{ block }}` is
 only recognised in the base template file itself, which is why those three lines are repeated.
 
 Two lookup traps cost time; both are commented in the files:
@@ -160,14 +158,17 @@ the latin and latin-ext subsets. The matching `@font-face` rules are hand-mainta
 
 `config.toml` at the root is an inert compatibility stub. The real config is `config/_default/`:
 
-- `config.toml` — baseurl, outputs (home also emits JSON for built-in search, and a WebAppManifest), markup, taxonomies
-- `params.toml` — theme name, contact details, search/map/comments engines, publication and project view styles
+- `config.toml` — baseurl, the `theme` list, outputs (home also emits JSON for built-in search, and a WebAppManifest), markup, taxonomies
+- `params.toml` — Academic's color theme name, contact details, search/map/comments engines, publication and project view styles
 - `menus.toml` — nav bar; a URL of `#foo` targets the homepage widget file `content/home/foo.md`
 - `languages.toml` — single English language block
 
-Site colors come from `data/themes/minimal_gunnar.toml`, selected by `theme = "minimal_gunnar"` in `params.toml`.
-Root-level `layouts/`, `assets/`, `data/`, and `static/` override the theme submodule; keep edits there rather than
-in `themes/`. Current overrides are `layouts/partials/custom_head.html`, `layouts/shortcodes/include.html`, and
+Academic's site colors come from `data/themes/minimal_gunnar.toml`, selected by `theme = "minimal_gunnar"` in
+`params.toml`. That only reaches pages Academic renders, which is now none of them; editorial carries its own
+palette in `themes/editorial/assets/css/editorial.css`.
+
+Root-level `layouts/`, `assets/`, `data/`, and `static/` override every theme in the list. They hold Academic's
+overrides, listed below. Do not add editorial work there (see the Editorial theme section). Current overrides are `layouts/partials/custom_head.html`, `layouts/shortcodes/include.html`, and
 `assets/scss/custom.scss`. The last is the theme's own hook for extra styling: `main.scss` ends with
 `@import "custom"`, so the root copy is compiled into `academic.css` with the theme's SCSS variables
 (`$sta-primary` and friends) in scope. Dark-mode rules take a `.dark` prefix.
