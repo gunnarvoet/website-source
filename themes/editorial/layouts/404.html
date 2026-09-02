@@ -1,0 +1,51 @@
+{{/* ------------------------------------------------------------------
+     The page for a URL that is not here.
+
+     Academic's own 404 was the last page in the site still rendering in
+     the Academic look, since the fallback applies shell and all. It also
+     opens with a search box wired to Academic's client-side index, which
+     the editorial shell does not load.
+
+     The recent posts are the same ledger the Writing archive uses, on
+     the reasoning that someone who followed a stale link to a post is
+     most likely looking for a post.
+     ------------------------------------------------------------------ */}}
+{{ define "main" }}
+{{- $recent := first 6 (where site.RegularPages "Section" "post") -}}
+
+<header class="page-head band">
+  <div class="band-head">
+    <span class="label eyebrow">Error</span>
+    <span class="mono">404</span>
+  </div>
+  <h1 class="display page-title">Not found</h1>
+  <div class="page-kicker">
+    <p>Nothing lives at this address. The page may have moved, or the link
+    that brought you here may have been wrong to begin with.</p>
+  </div>
+</header>
+
+{{- with $recent }}
+<section class="band">
+  <div class="band-head">
+    <span class="label eyebrow">Recent writing</span>
+    {{- with site.GetPage "/post" }}
+    <span class="mono"><a href="{{ .RelPermalink }}">all posts &#8594;</a></span>
+    {{- end }}
+  </div>
+  <div class="ledger">
+    {{- range . }}
+    <a class="row" href="{{ .RelPermalink }}">
+      <span class="when mono">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 Jan 02" }}</time>
+      </span>
+      <span>
+        <span class="what">{{ .Title }}</span>
+        {{- with (or .Params.summary .Params.subtitle) }}<span class="where">{{ . }}</span>{{ end }}
+      </span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+{{ end }}
