@@ -10,7 +10,7 @@ categories: []
 date: {{ .Date }}
 lastmod: {{ .Date }}
 featured: false
-draft: false
+draft: true
 reading_time: false
 
 # Featured image
@@ -30,4 +30,4 @@ image:
 projects: []
 ---
 
-{{< figure library="true" src="figuredir/figure.jpg" title="" lightbox="true" >}}
+{{< figure src="photo.jpg" title="" >}}
