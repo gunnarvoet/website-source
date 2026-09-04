@@ -6,8 +6,13 @@
      everywhere else it is the way home. */}}
 {{- $home := site.Home.RelPermalink -}}
 <header class="site-header">
-  <a class="brand" href="{{ if .IsHome }}#top{{ else }}{{ $home }}{{ end }}">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
-  <nav class="nav label" aria-label="Main navigation">
+  {{/* On the homepage every header link is a same-document fragment, so
+       nothing reloads and the burger panel would stay open behind the
+       section it just scrolled to. Close it on the way out. */}}
+  <a class="brand" href="{{ if .IsHome }}#top{{ else }}{{ $home }}{{ end }}"
+     onclick="document.body.classList.remove('menu-open')">{{ $author.Params.name }}<br><span>{{ $author.Params.role }}</span></a>
+  <nav class="nav label" aria-label="Main navigation"
+       onclick="if (event.target.closest('a')) document.body.classList.remove('menu-open')">
     <a href="{{ $home }}#about">About</a>
     <a href="{{ $home }}#projects">Projects</a>
     <a href="{{ $home }}#software">Software</a>
