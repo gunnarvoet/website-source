@@ -124,6 +124,23 @@ The site's goldmark has no passthrough extension and `config/` is off limits to 
 are found in the rendered HTML rather than during markdown parsing, and only pages with `math: true` are
 scanned.
 
+That ordering means TeX which is also valid markdown is mangled before KaTeX sees it. Two collisions have
+shown up so far:
+
+- `_` after a closing brace is left-flanking, so it opens emphasis. In the ADCP post `\bar{u}_T` opened and
+  a later `T_\mathrm{int}` closed, and goldmark replaced both underscores with `<em>` and `</em>` tags
+  inside the math.
+- A backslash in front of ASCII punctuation is a CommonMark escape. Goldmark deletes the backslash and
+  keeps the character, so the thin space `\,` reached KaTeX as `,` and typeset as a visible comma.
+
+Wrap display math in a bare `<div>`, which goldmark treats as a raw HTML block and leaves unparsed.
+`.longform > *` already sets the 66ch measure on any direct child, so the wrapper needs no CSS. Inline
+math cannot be wrapped that way, so it has to be checked after a build. `throwOnError` is false, so
+KaTeX typesets the damage and the build stays clean either way, which makes the rendered payloads the
+only reliable check:
+
+    grep -o 'x-tex">[^<]*' /tmp/check/post/<SLUG>/index.html    # every payload must be clean TeX
+
 Code is highlighted at build time, by the same route. `codeFences = false` in `config/`, because Academic
 colors code with its own client-side highlight.js, so goldmark emits every fence as a bare
 `<pre><code class="language-X">` and the editorial shell loads nothing that would color it. `func/highlight.html`
