@@ -13,7 +13,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ $title }}</title>
   <meta name="description" content="{{ $desc }}">
-  <link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
+  {{/* A GV monogram cut from the theme's own Archivo, drawn by
+       themes/editorial/make-icon.py. The SVG is what current browsers take;
+       the 32px PNG is the fallback for those that will not, and the
+       apple-touch icon is what iOS puts on a home screen. */}}
+  <link rel="icon" type="image/svg+xml" href="{{ "icons/icon.svg" | relURL }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "icons/icon-32.png" | relURL }}">
+  <link rel="apple-touch-icon" href="{{ "icons/apple-touch-icon.png" | relURL }}">
+  <link rel="manifest" href="{{ "manifest.webmanifest" | relURL }}">
+  <meta name="theme-color" content="#0f2b33">
   {{/* Archivo and IBM Plex Mono are self-hosted from the theme's own
        static/fonts/; the @font-face rules are in editorial.css. Preload the
        two latin cuts that every page sets type in, so the width axis is in

@@ -171,6 +171,24 @@ the latin and latin-ext subsets. The matching `@font-face` rules are hand-mainta
 `editorial.css` and have to be edited alongside it if the axes or weights change. Both families are OFL 1.1;
 `static/fonts/OFL.txt` carries the license.
 
+### Site icon
+
+The tab icon is a "GV" monogram, paper letters on an `--abyss` tile, cut from the theme's own Archivo at the
+display setting the headlines use (`wdth` 70, `wght` 900) and converted to outlines.
+`themes/editorial/make-icon.py` draws it: `uv run themes/editorial/make-icon.py` writes
+`themes/editorial/static/icons/` (`icon.svg` plus the PNG sizes that cannot be SVG) and needs `rsvg-convert`.
+The output is committed and no build step regenerates it, so rerun the script after changing the palette or
+the display cut.
+
+`head.html` links the SVG, a 32px PNG fallback and the apple-touch icon, and editorial's own
+`layouts/index.webmanifest` names them for an installed app. Academic's manifest template resized whatever
+site icon it found in `static/img/` and read its colors from a Scratch the editorial shell never fills, so it
+emitted `<no value>` for both.
+
+The old icons in `static/img/` are still there and still Academic's: `favicon.ico` is a 96x96 PNG despite the
+extension, a photograph that was unreadable at 16px, and `icon*.png` are an earlier blue monogram. Nothing in
+the editorial build reads them; `make serve-academic` does.
+
 ## Configuration layout
 
 `config.toml` at the root is an inert compatibility stub. The real config is `config/_default/`:

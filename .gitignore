@@ -4,3 +4,8 @@ public/
 resources/
 .hugo_build.lock
 .claude/worktrees/
+
+# The global ignore file carries `Icon?` for the macOS Icon\r resource fork, and
+# with core.ignorecase on that pattern also matches a directory named `icons`,
+# which silently swallows the theme's site icons. Re-include the directory.
+!themes/editorial/static/icons/
