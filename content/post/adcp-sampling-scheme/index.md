@@ -2,15 +2,15 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "ADCP Sampling Schemes"
-subtitle: ""
-summary: "Continuous pinging or burst mode? The averaging statistics settle most of it, and the burst length compared against the decorrelation time of the flow settles the rest."
+subtitle: "Trade-offs between burst sampling and continuous pinging for moored ADCPs"
+summary: "Continuous pinging or burst mode for moored ADCPs?"
 authors: []
 tags: []
 categories: []
 date: 2026-09-03T15:45:20-07:00
 lastmod: 2026-09-03T15:45:20-07:00
 featured: false
-draft: true
+draft: false
 reading_time: false
 math: true
 
@@ -31,9 +31,9 @@ image:
 projects: []
 ---
 
-Have you ever wondered what sampling scheme to use when setting up your ADCP? The instrument can ping continuously at a set rate, or fire a rapid interval of pings in burst mode. But what is better? I have asked myself this question in the past, often at sea when getting instruments ready for deployment. Here are advantages for either mode for the next time I am out there. Maybe you find these helpful as well. Send me an [email](/#contact) if you disagree or have any advice!
+Have you ever wondered what sampling scheme to use when setting up your ADCP? The instrument can ping continuously at a set rate, or rapidly send a bunch of pings in burst mode. But what is better? I have asked myself this question in the past, often at sea when getting instruments ready for a mooring deployment. Here are some advantages for either mode for the next time I am out there. Maybe you find these helpful as well. Send me an [email](/#contact) if you disagree or have any advice!
 
-The ocean signal is usually weak enough that you have to average over a handful of pings to push the noise amplitude of your measurement below what you would like to observe. And your battery fixes how many pings you get out of the whole deployment, with the memory card capping them too once you record every ping, so the same $N$ pings land in each ensemble interval either way, and you choose only where inside the interval they sit. Take the battery away and there is nothing to decide. You ping as fast as the instrument allows and average however you like afterwards.
+The ocean signal is usually weak enough that you need to average over a handful of pings to push the noise amplitude of your measurement below what you would like to observe. How the pings are spread out matters for the average.
 
 ## Noise floor
 
@@ -41,7 +41,7 @@ Start with the part that does not depend on the sampling scheme at all. Inherent
 
 ## Sampling error
 
-The sampling scheme decides the gap between the pings you took and the average you wanted. Call $\hat{u}$ the ensemble the instrument writes down, the average of its $N$ pings, and call $\bar{u}_T$ the true average of the flow over the ensemble interval $T$, the number you were after. The $N$ pings sit inside a window $W$. Burst sampling has $W = \tau$, the burst length. Continuous pinging has $W = T$. The variance of the miss, $\mathrm{Var}(\hat{u} - \bar{u}_T)$, consists of two terms:
+The sampling scheme decides the gap between the pings you took and the average you wanted. Call $\hat{u}$ the ensemble-average over $N$ recorded pings, and call $\bar{u}_T$ the true average of the flow over the same ensemble interval $T$, the number you were after. The $N$ pings sit inside a window $W$. Burst sampling has $W = \tau$, the burst length. Continuous pinging has $W = T$. The variance of the miss, $\mathrm{Var}(\hat{u} - \bar{u}_T)$, consists of two terms:
 
 <div>
 $$\mathrm{Var}\left(\hat{u} - \bar{u}_T\right) \approx \frac{\sigma_p^2}{N} + \sigma_s^2\,\frac{2 T_\mathrm{int}}{W}$$
@@ -53,7 +53,7 @@ The first term counts pings. The second counts independent samples, $N_\mathrm{e
 
 A one-minute burst every ten minutes samples over $W = 1$ min where continuous pinging samples over $W = 10$ min, so the burst ensemble carries ten times the sampling-error variance, roughly three times the standard error, at more or less the same power consumption.
 
-In the frequency domain it is the same statement. Burst ensembles alias everything between $1/T$ and $1/\tau$ into the spectrum you resolve, where continuous ensembles attenuate that band by the boxcar response of the average. If you are after tides or internal waves and there is energetic motion sitting above them, that alone settles the question.
+The same cost shows up in a spectrum, as aliasing. Motions with periods between the burst length and the ensemble interval are too slow for one burst to average away and too fast for the record to resolve, so every burst catches them at a different phase and that scatter folds down into the band you were trying to measure. Nothing downstream separates it from real signal again. Pinging across the whole interval averages those motions away before they reach the record. For tides or internal waves under an energetic high-frequency band, that is reason enough on its own to ping continuously.
 
 ## Burst length against decorrelation time
 
@@ -61,35 +61,29 @@ The ratio $\tau/T_\mathrm{int}$ carries the whole comparison, and the case for b
 
 So a burst-average is a very good quasi-instantaneous velocity measurement. The property that costs you accuracy on the mean is the same property you are paying for when you want the snapshot.
 
-## Vertical velocity
-
-The snapshot pays off most for vertical velocity. The noise geometry here is often read backwards: for a Janus pair at beam angle $\theta$ from vertical, $\sigma_u/\sigma_w = \cot\theta$, about 2.8 at the usual 20°, so $w$ is the quieter component per ping. $w$ itself is smaller by two or three orders of magnitude, though, and the events that produce it are short. Of everything the instrument measures, $w$ needs the most averaging and tolerates the least of it. Burst mode is the one configuration that offers both.
-
-## Ping distribution and recording granularity
-
-Picking the averaging scheme later only works if single pings reach the memory card. I usually record every ping, so that freedom is real for me. Let the instrument average a ten-minute ensemble onboard instead and continuous pinging quantizes your post-processing to ten-minute multiples, which is the complaint you would level at burst mode. Two separate choices hide in here: how the pings sit in time, and what granularity gets written. Only the second one buys flexibility.
-
 ## Reasons to pick burst
 
-- **Turbulence methods need it.** The structure-function estimate of $\varepsilon$ ([Wiles et al. 2006](https://doi.org/10.1029/2006GL027050), and [Lucas et al. 2014](https://doi.org/10.1175/JTECH-D-13-00198.1) for the moored case) and the covariance method for Reynolds stress ([Lu and Lueck 1999](https://doi.org/10.1175/1520-0426(1999)016%3C1568:UABAIA%3E2.0.CO;2)) all want rapid pings resolving the turbulent band, with single pings written to memory. No duty cycle you can afford across a long deployment will give you that.
+- **Vertical velocity.** Burst snapshots pay off most for vertical velocity. The noise geometry here is often read backwards: for a Janus pair at beam angle $\theta$ from vertical, $\sigma_u/\sigma_w = \cot\theta$, about 2.8 at the usual 20°, so $w$ is the quieter component per ping. $w$ itself is smaller by two or three orders of magnitude, though, and the events that produce it are short. Of everything the instrument measures, $w$ needs the most averaging and tolerates the least of it. Burst mode is the configuration that offers both.
+- **Turbulence methods need it.** The structure-function estimate of $\varepsilon$ ([Wiles et al. 2006](https://doi.org/10.1029/2006GL027050), and [Lucas et al. 2014](https://doi.org/10.1175/JTECH-D-13-00198.1) for the moored case) and the covariance method for Reynolds stress ([Lu and Lueck 1999](https://doi.org/10.1175/1520-0426(1999)016%3C1568:UABAIA%3E2.0.CO;2)) all rely on rapid pings resolving the turbulent band. For a long deployment this is only possible with burst sampling.
 - **You can measure your own noise floor.** Rapid pings inside a burst let you estimate $\sigma_p$ from the high-frequency plateau of the within-burst spectrum, or from differences between adjacent pings, without taking the manufacturer's number on faith.
-- **Power.** The instrument sleeps between bursts where continuous pinging keeps it awake, which can buy real deployment time at the same ping count. A wake-up cost works against very short and very frequent bursts, so put both configurations through the planning software before believing either.
-- **Scheduling.** On a mooring carrying several acoustic instruments, bursts can be interleaved so the instruments stay out of each other's way.
+- **Power.** I am not sure if this actually saves much battery on commercial ADCPs. The instrument could sleep between bursts while continuous pinging keeps it awake, which may increase endurance compared to continuous pinging where the instrument goes to sleep between each ping. The instrument's planning software may help quantifying this.
+- **Scheduling.** On a mooring carrying several acoustic instruments, bursts can be interleaved so instruments stay out of each other's way.
 
 ## Reasons to pick continuous
 
-- **Graceful degradation.** A fish, a knockdown or an interference hit costs you the whole ensemble in burst mode. Pinging continuously, you drop the bad pings on correlation and echo amplitude and keep the rest of the interval.
-- **Extremes.** The mean stays unbiased either way, but a low duty cycle undersamples intermittent events. Event counts, maxima and variance then describe your sampling scheme as much as they describe the flow.
-- **Recoverability.** Continuous pinging costs you the snapshot and some battery. Burst mode costs you a decision about $\tau$ against $T_\mathrm{int}$ that you had to make before you knew what $T_\mathrm{int}$ was, and that you cannot revisit at your desk.
+<!-- - **Graceful degradation.** A fish, a knockdown or an interference hit costs you the whole ensemble in burst mode. Pinging continuously, you drop the bad pings on correlation and echo amplitude and keep the rest of the interval. -->
+- **Better averages.** Discussed above. This often tips the scale for continuous sampling. 
+- **Extremes.** A burst is as likely to land inside an event as outside one, so the mean survives a low duty cycle. Maxima do not. The largest velocity in a tenth of the record is smaller than the largest in all of it, and a nonlinear wave that lasts two minutes is either caught in a burst or invisible. Quote a maximum from burst data and you are describing your sampling scheme as much as the flow.
+- **Recoverability.** Continuous pinging costs you the snapshot and some battery. Burst mode costs you a decision about $\tau$ against $T_\mathrm{int}$ that you had to make before you knew what $T_\mathrm{int}$ was, which you cannot revisit at a later time in the office.
 
-## Two things worth checking
+## Timing between pings
 
-The $\sqrt{N}$ scaling assumes ping errors are independent. Fire faster than the scattering volume decorrelates and successive pings sample a partly correlated scatterer field, which should cost some of that $\sqrt{N}$. I do not know how large the effect is. It is checkable against records you already have, by comparing an observed burst-average noise floor with $\sigma_p/\sqrt{N}$.
+The $\sqrt{N}$ scaling assumes ping errors are independent. Ping faster than the scattering volume decorrelates and successive pings sample a partly correlated scatterer field, which will cost some of that $\sqrt{N}$. I am not sure how large the effect is.
 
-Reverberation sets a floor under the burst ping interval. Fire again before the previous ping's echoes have faded and the new profile lands on top of them. The instrument already enforces a minimum interval covering its own profiling range, so the case to watch is a strong reflector outside that range, the surface for an upward-looker or the bottom for a downward one, returning after the profiling window has closed. How much margin that needs depends on geometry and frequency.
+Reverberation may matter for the burst ping interval. Pinging again before the previous ping's echoes have faded and the new profile lands on top of them. The instrument already enforces a minimum interval covering its own profiling range, so the case to watch is a strong reflector outside that range, the surface for an uplooker or the bottom for a downlooker, returning after the profiling window has closed. How much margin this needs depends on geometry and frequency.
 
-## A default
+## Continuous pinging by default
 
-Continuous, and something specific has to push me off it. Turbulence estimates push. So does a regime where the vertical velocity snapshot is the measurement. So does a battery that forces a duty cycle on me. Absent one of those, spreading the pings costs nothing I can name and leaves the averaging decision for my desk, where I can still change my mind about it.
+Continuous pinging is my default unless there are good reasons for bursts. Turbulence estimates would be a reason. A regime where the vertical velocity is expected large enough to be measurable at all could be another. Outside of those, spreading the pings evenly leaves the averaging decision for later once I can look at the signal. Picking the averaging scheme later only works if single pings are recorded (no ensemble averaging in the setup). I usually record every ping.
 
 Whatever you end up picking, you'll probably end up with a dataset full of mysteries. At least that's what usually happens to me. Also: [velosearaptor](https://github.com/modscripps/velosearaptor) is ready to handle either sampling scheme.
