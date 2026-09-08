@@ -80,3 +80,7 @@ Somewhat random collection of data analysis code snippets written in Python. Sha
 Adds a Jupyter Notebook magic command to watch a file or folder and re-evaluate a notebook cell if any changes occur.
 
 [{{< icon name="github" pack="fab" padding_left="0" padding_right="1" >}}code](https://github.com/gunnarvoet/watchmagic)
+
+<br>
+
+...and lots more @ [github.com/gunnarvoet](https://github.com/gunnarvoet).
