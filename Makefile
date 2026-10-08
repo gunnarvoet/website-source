@@ -28,4 +28,23 @@ gv.bib bib:
 biblio: bib
 	uv run scripts/build_biblio.py static/files/gv.bib static/files/bibliography.md
 
-.PHONY: serve serve-academic bib biblio
+# Checkout of the private cv repo (gunnarvoet/cv). Override if it moves:
+#   make cv CV_DIR=/path/to/cv
+CV_DIR ?= $(HOME)/Projects/cv
+CV_NAME ?= cv_gunnar_voet
+
+# static/files/cv.pdf is built from the cv repo, which does not track its PDF.
+# The PDF is public, so the checkout has to be clean: what gets served then
+# matches a commit over there. `make cv FORCE=1` skips that check.
+cv:
+ifndef FORCE
+	@test -z "$$(git -C $(CV_DIR) status --porcelain)" || { \
+		echo "$(CV_DIR) has uncommitted changes; commit them or run 'make cv FORCE=1'"; \
+		git -C $(CV_DIR) status --short; \
+		exit 1; }
+endif
+	latexmk -cd $(CV_DIR)/$(CV_NAME).tex
+	cp $(CV_DIR)/$(CV_NAME).pdf static/files/cv.pdf
+	@echo "cv.pdf <- $(CV_DIR) @ $$(git -C $(CV_DIR) log -1 --format='%h %s')"
+
+.PHONY: serve serve-academic bib biblio cv
