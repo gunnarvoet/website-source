@@ -28,6 +28,9 @@ DROP_FIELDS = {"file", "abstract", "copyright", "langid", "keywords", "urldate",
 
 FIELD_RE = re.compile(r"^\s*([\w-]+)\s*=\s*", re.M)
 
+# Manuscript status written into a field where page numbers would go.
+STATUS_RE = re.compile(r"in prep|submitted|in revision|in review|under review", re.I)
+
 # Zotero stores several compound surnames split across its first/last name
 # fields ("Boyer, Arnaud Le"), and holds full journal titles where the list
 # wants abbreviations. bib_fixups.json maps the export's form to the correct
@@ -112,6 +115,11 @@ def keep(key, etype, body):
     if not re.search(r"\d{4}", year):
         # catches `in preparation`, `submitted`, and missing years
         return False, "no published year (%s)" % (year or "absent")
+    # Manuscripts cited in drafts carry a year and their status in `pages`
+    # (`pages = {in revision}`) so the citation prints the status.
+    pages = field(body, "pages")
+    if STATUS_RE.search(pages):
+        return False, "unpublished (pages %s)" % pages
     if etype == "article" and not field(body, "journal"):
         return False, "no journal"
     return True, ""

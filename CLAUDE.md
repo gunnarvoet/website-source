@@ -243,7 +243,8 @@ Do not point a Zotero auto-export at `static/files/gv.bib`. The raw export carri
 paths under `$HOME`, and that file is served publicly at `/files/gv.bib`.
 
 `scripts/filter_bib.py` keeps `@article`/`@incollection`/`@inproceedings`/`@book`/`@phdthesis` entries with Voet as
-an author, and drops entries with no four-digit year (which catches `in preparation`), articles with no journal, and
+an author, and drops entries with no four-digit year (which catches `in preparation`), entries with a manuscript
+status in `pages` (`pages = {in revision}`, used for manuscripts cited in drafts), articles with no journal, and
 `@misc`/`@unpublished` (datasets, software releases, unpublished manuscripts). It prints what it excluded on every
 run. `scripts/bib_fixups.json` substitutes journal abbreviations where Zotero has no `journalAbbreviation` value
 (only 28 of 59 own-publication items carry one). Its `names` map is empty: the compound surnames it used to repair
