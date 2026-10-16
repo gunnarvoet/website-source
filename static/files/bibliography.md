@@ -58,10 +58,6 @@
   <a class="pub-title" href="https://doi.org/10.1175/BAMS-D-24-0082.1">Linking ocean mixing and overturning circulation</a>
   <div class="pub-meta"><span class="pub-authors">Burchard, H., Alford, M., Chouksey, M. … <strong>Voet, G.</strong>, et al.</span><span class="pub-venue">Bull. Am. Meteorol. Soc. 105, E1265–E1274</span></div>
 </div>
-<div class="pub" id="pub-colosietal24">
-  <a class="pub-title" href="https://doi.org/10.1121/10.0027497">On the feasibility of using short-range, high-frequency transmissions to characterize the vertical-spectra of small-scale internal waves and turbulence in a bottom boundary layer</a>
-  <div class="pub-meta"><span class="pub-authors">Colosi, J.A., Duda, T.F., Alford, M., Lin, Y.-T., <strong>Voet, G.</strong></span><span class="pub-venue">J. Acoust. Soc. Am. 155, A278–A279</span></div>
-</div>
 <div class="pub" id="pub-marquesetal24">
   <a class="pub-title" href="https://doi.org/10.1175/JPO-D-23-0038.1">Observations of Tidally Driven Turbulence over Steep, Small-Scale Topography Embedded in the Tasman Slope</a>
   <div class="pub-meta"><span class="pub-authors">Marques, O.B., Alford, M.H., Pinkel, R., MacKinnon, J.A., <strong>Voet, G.</strong>, Klymak, J.M., Nash, J.D.</span><span class="pub-venue">J. Phys. Oceanogr. 54, 601–615</span></div>

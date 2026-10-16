@@ -120,6 +120,10 @@ def keep(key, etype, body):
     pages = field(body, "pages")
     if STATUS_RE.search(pages):
         return False, "unpublished (pages %s)" % pages
+    # Meeting abstracts printed in a journal supplement, e.g. JASA
+    # `number = {3\_Supplement}`.
+    if "supplement" in field(body, "number").lower():
+        return False, "meeting abstract (supplement)"
     if etype == "article" and not field(body, "journal"):
         return False, "no journal"
     return True, ""
