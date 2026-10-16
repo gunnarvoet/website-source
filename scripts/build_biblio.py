@@ -96,9 +96,10 @@ def render(entries):
             out.append('<h3 class="pub-year">%s</h3>' % html.escape(year))
         title_html = ('<a class="pub-title" href="%s">%s</a>' % (html.escape(url), title)
                       if url else '<span class="pub-title">%s</span>' % title)
-        # book chapters emit "pp. 89-103", which needs a comma; a journal
-        # volume runs straight on from the abbreviation.
-        sep = ", " if locators.startswith("pp.") else " "
+        # book chapters emit "pp. 89-103" and accepted papers carry "accepted"
+        # in pages, both of which need a comma; a journal volume runs straight
+        # on from the abbreviation.
+        sep = " " if locators[:1].isdigit() else ", "
         venue = sep.join(v for v in (venue, locators) if v)
         out.append('<div class="pub" id="pub-%s">' % html.escape(key))
         out.append("  " + title_html)

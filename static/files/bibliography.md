@@ -14,7 +14,7 @@
 </div>
 <div class="pub" id="pub-cusacketal25">
   <span class="pub-title">Instabilities of an abyssal overflow within a topographically complex passage</span>
-  <div class="pub-meta"><span class="pub-authors">Cusack, J.M., Tan, S., <strong>Voet, G.</strong>, Pratt, L., Alford, M.H., Carter, G., Girton, J.</span><span class="pub-venue">J. Phys. Oceanogr. accepted</span></div>
+  <div class="pub-meta"><span class="pub-authors">Cusack, J.M., Tan, S., <strong>Voet, G.</strong>, Pratt, L., Alford, M.H., Carter, G., Girton, J.</span><span class="pub-venue">J. Phys. Oceanogr., accepted</span></div>
 </div>
 <div class="pub" id="pub-maetal26">
   <a class="pub-title" href="https://doi.org/10.1175/JPO-D-25-0135.1">Standing Wave–Induced Tidal Shear in a Submarine Canyon in the Rockall Trough</a>
@@ -26,7 +26,7 @@
 </div>
 <div class="pub" id="pub-wynnecattanachetal26">
   <span class="pub-title">Boundary-interior exchange quantified with a long-term moored volume budget</span>
-  <div class="pub-meta"><span class="pub-authors">Wynne-Cattanach, B.L., <strong>Voet, G.</strong>, Naveira Garabato, A.C., Spingys, C.P., van Haren, H., Ferrari, R., Alford, M.H.</span><span class="pub-venue">J. Phys. Oceanogr. accepted</span></div>
+  <div class="pub-meta"><span class="pub-authors">Wynne-Cattanach, B.L., <strong>Voet, G.</strong>, Naveira Garabato, A.C., Spingys, C.P., van Haren, H., Ferrari, R., Alford, M.H.</span><span class="pub-venue">J. Phys. Oceanogr., accepted</span></div>
 </div>
 <h3 class="pub-year">2025</h3>
 <div class="pub" id="pub-alfordetal25a">
