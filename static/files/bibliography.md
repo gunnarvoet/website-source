@@ -12,6 +12,10 @@
   <a class="pub-title" href="https://doi.org/10.1038/s41467-026-73809-3">Climatic reach of small-scale turbulence in the ocean interior</a>
   <div class="pub-meta"><span class="pub-authors">Cimoli, L., Mashayek, A., Naveira Garabato, A.C. … <strong>Voet, G.</strong>, et al.</span><span class="pub-venue">Nat. Commun. 17, 5212</span></div>
 </div>
+<div class="pub" id="pub-cusacketal25">
+  <span class="pub-title">Instabilities of an abyssal overflow within a topographically complex passage</span>
+  <div class="pub-meta"><span class="pub-authors">Cusack, J.M., Tan, S., <strong>Voet, G.</strong>, Pratt, L., Alford, M.H., Carter, G., Girton, J.</span><span class="pub-venue">J. Phys. Oceanogr. accepted</span></div>
+</div>
 <div class="pub" id="pub-maetal26">
   <a class="pub-title" href="https://doi.org/10.1175/JPO-D-25-0135.1">Standing Wave–Induced Tidal Shear in a Submarine Canyon in the Rockall Trough</a>
   <div class="pub-meta"><span class="pub-authors">Ma, Y., Ferrari, R., Polzin, K., Alford, M.H., Naveira Garabato, A.C., <strong>Voet, G.</strong></span><span class="pub-venue">J. Phys. Oceanogr. 56, 665–680</span></div>
@@ -19,6 +23,10 @@
 <div class="pub" id="pub-moumetal26">
   <a class="pub-title" href="https://doi.org/10.1175/JPO-D-25-0262.1">Wintertime Convection in the Subpolar North Atlantic</a>
   <div class="pub-meta"><span class="pub-authors">Moum, J.N., <strong>Voet, G.</strong>, Waterhouse, A.F., Moulin, A.J.</span><span class="pub-venue">J. Phys. Oceanogr. 56, 1405–1418</span></div>
+</div>
+<div class="pub" id="pub-wynnecattanachetal26">
+  <span class="pub-title">Boundary-interior exchange quantified with a long-term moored volume budget</span>
+  <div class="pub-meta"><span class="pub-authors">Wynne-Cattanach, B.L., <strong>Voet, G.</strong>, Naveira Garabato, A.C., Spingys, C.P., van Haren, H., Ferrari, R., Alford, M.H.</span><span class="pub-venue">J. Phys. Oceanogr. accepted</span></div>
 </div>
 <h3 class="pub-year">2025</h3>
 <div class="pub" id="pub-alfordetal25a">
